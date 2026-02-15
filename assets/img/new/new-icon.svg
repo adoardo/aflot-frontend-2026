@@ -1,0 +1,18 @@
+<svg id="Группа_4" data-name="Группа 4" xmlns="http://www.w3.org/2000/svg" width="37.5" height="28" viewBox="0 0 37.5 28">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #cecfe1;
+        stroke-width: 1px;
+      }
+
+      .cls-2 {
+        fill: #3b45a9;
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <circle id="Эллипс_4" data-name="Эллипс 4" class="cls-1" cx="23.5" cy="14" r="13.5"/>
+  <path id="Фигура_8" data-name="Фигура 8" class="cls-2" d="M1068,3471.02h27.14l-5.25,5.27,0.69,0.71,6.42-6.5-6.42-6.5-0.71.72,5.27,5.28H1068v1.02Z" transform="translate(-1068 -3456.5)"/>
+</svg>

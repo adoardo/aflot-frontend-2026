@@ -1,0 +1,22 @@
+<svg id="проскрольте" xmlns="http://www.w3.org/2000/svg" width="18" height="201" viewBox="0 0 18 201">
+  <defs>
+    <style>
+      .cls-1 {
+        font-size: 12.175px;
+        font-family: MyriadPro;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+
+      .cls-1, .cls-2 {
+        fill: #fff;
+      }
+
+      .cls-2 {
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <text id="проскрольте-2" data-name="проскрольте" class="cls-1" transform="translate(14.86 154.001) rotate(-90) scale(1.006 0.986)">проскрольте</text>
+  <path id="Фигура_5" data-name="Фигура 5" class="cls-2" d="M381.125,1701.37v-2.25a1.125,1.125,0,0,0-2.25,0v2.25a7.89,7.89,0,0,0-7.876,7.88V1716a9,9,0,0,0,18,0v-6.75A7.891,7.891,0,0,0,381.125,1701.37ZM386.75,1716a6.75,6.75,0,0,1-13.5,0v-6.75a5.636,5.636,0,0,1,5.625-5.63h2.25a5.636,5.636,0,0,1,5.625,5.63V1716ZM380,1705.87a1.13,1.13,0,0,0-1.125,1.13v2.25a1.125,1.125,0,0,0,2.25,0V1707A1.13,1.13,0,0,0,380,1705.87Z" transform="translate(-371 -1524)"/>
+</svg>

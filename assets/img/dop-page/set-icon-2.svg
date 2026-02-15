@@ -1,0 +1,17 @@
+<svg id="Группа_6" data-name="Группа 6" xmlns="http://www.w3.org/2000/svg" width="45.281" height="28" viewBox="0 0 45.281 28">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: none;
+        stroke: #aaadc8;
+        stroke-width: 2px;
+      }
+
+      .cls-1 {
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <path id="Фигура_6" data-name="Фигура 6" class="cls-1" d="M434.124,17964a13,13,0,0,0,0-26H417.019a13,13,0,1,0,0,26h17.105Z" transform="translate(-403 -17937)"/>
+  <circle id="Эллипс_6" data-name="Эллипс 6" class="cls-2" cx="31.14" cy="14" r="13.141"/>
+</svg>

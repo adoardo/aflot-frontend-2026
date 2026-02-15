@@ -1,0 +1,16 @@
+<svg id="Аватар" xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #3b45a9;
+      }
+
+      .cls-2 {
+        fill: #fff;
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <circle id="Эллипс_4" data-name="Эллипс 4" class="cls-1" cx="40" cy="40" r="40"/>
+  <path id="И" class="cls-2" d="M1232.26,2032.51v33.74h8.2l6.45-12.17a99.506,99.506,0,0,0,5.37-12.01h0.14c-0.42,4.41-.52,9.01-0.52,14.22v9.96h6.6v-33.74h-7.35l-6.83,13.26c-1.88,3.61-4,8.06-5.65,12.02h-0.19c0.28-4.51.38-9.86,0.38-15.27v-10.01h-6.6Z" transform="translate(-1206 -2010)"/>
+</svg>

@@ -1,0 +1,13 @@
+.idea
+node_modules/
+
+.nuxt
+dist
+
+.ssh/
+app/
+
+node_modules
+
+yarn.lock
+package-lock.json

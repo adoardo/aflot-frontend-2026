@@ -1,0 +1,3 @@
+<template>
+    <div id="fp-nav" class="fp-left"><ul><li><a href="#" class=""><span class="fp-sr-only">Section%201</span><span></span></a></li><li><a href="#" class="active"><span class="fp-sr-only">Section%202</span><span></span></a></li><li><a href="#"><span class="fp-sr-only">Section%203</span><span></span></a></li><li><a href="#"><span class="fp-sr-only">Section%204</span><span></span></a></li><li><a href="#"><span class="fp-sr-only">Section%205</span><span></span></a></li></ul></div>
+</template>

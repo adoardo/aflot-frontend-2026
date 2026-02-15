@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  aflot-dev-docker:
+    container_name: aflot-dev2
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3002:3002"
+    #develop:
+    #  watch:
+    #    - action: sync+restart
+    #      path: .
+    #      target: .
+    volumes:
+      - .:/usr/src/app
