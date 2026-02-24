@@ -3,19 +3,19 @@
     <div class="modal-block">
       <img src="assets/img/modal/check-green.svg" alt="success" />
       <h2 class="modal-title">
-        Вакансия опубликована!
+        Вакансия опубликована
       </h2>
       <button
         @click="handleCloseVac"
         class="modal-button-blue js-modal-close"
       >
-        На страницу моряков
+        К анкетам моряков
       </button>
     </div>
   </div>
   <div
     :class="['header-overlay', { 'header-overlay__active': isOpen }]"
-    @click="handleClose"
+    @click="handleCloseVac"
   ></div>
 </template>
 

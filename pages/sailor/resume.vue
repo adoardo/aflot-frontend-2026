@@ -132,15 +132,19 @@
               </div>
 
               <div class="resume-grid">
-                <div class="input">
-                  <label for="">Фамилия</label>
-                  <input type="text" v-model="formData.last_name" />
-                </div>
+                <AfInput
+                    label="Фамилия"
+                    type="text"
+                    v-model="formData.last_name"
+                    :error="v$.last_name.$error && v$.last_name.required.$invalid"
+                />
 
-                <div class="input">
-                  <label for="">Имя</label>
-                  <input type="text" v-model="formData.first_name" />
-                </div>
+                <AfInput
+                    label="Имя"
+                    type="text"
+                    v-model="formData.first_name"
+                    :error="v$.first_name.$error && v$.first_name.required.$invalid"
+                />
 
                 <div class="input">
                   <label for="">Отчество</label>
@@ -219,44 +223,58 @@
             </div>
 
             <h2>Основные документы:</h2>
-            <div class="docs-block-table">
+            <div class="docs-block-table docs-block-table-main">
               <div class="docs">
                 <div class="docs__head">Название:</div>
                 <div class="docs__head">Данные:</div>
 
                 <div class="docs__label">Заграничный паспорт</div>
-                <div class="docs__value alert">
-                  <div class="date">
-                    <input type="date" v-model="formData.main_documents.foreign_passport" />
-                  </div>
-                  <div class="info" style="display: none">
+                <div class="docs__value_datepicker" :class="{' red-bg':  !passportDateValidate,  'blue-bg': passportDateValidate}">
+                  <VueDatePicker @update:modelValue="handleChangePassport" :class="'pass-date'" v-model="formData.main_documents.foreign_passport" hide-input-icon auto-apply :time-config="{ enableTimePicker: false }" :formats="{month: 'LLL', year: 'yyyy', day: 'dd', input: 'dd.MM.yyyy', preview: undefined}" :locale="ru">
+
+                  </VueDatePicker>
+
+                  <div v-if="!passportDateValidate" class="info">
                     <img src="assets/img/resume/alert.svg" alt="" />
-                    <span>Срок действия истек! Заменить можно <a href="#">здесь</a></span>
+                    <span>Срок действия истек! Заменить можно <a target="_blank" href="#">здесь</a></span>
                   </div>
+
+                  <div v-if="v$.main_documents.foreign_passport.$error && v$.main_documents.foreign_passport.required.$invalid" class="input-error">
+                    <span>Пожалуйста, заполните поле</span>
+                  </div>
+
                 </div>
 
                 <div class="docs__label">Удостоверение личности моряка</div>
                 <div class="docs__value">
-                  <input
+                  <AfInput
+                      place="Введите данные"
                       type="text"
-                      placeholder="Введите данные"
                       v-model="formData.main_documents.seafarers_ID_card"
+                      :error="v$.main_documents.seafarers_ID_card.$error && v$.main_documents.seafarers_ID_card.required.$invalid"
                   />
                 </div>
 
+
+
                 <div class="docs__label">Диплом/ Свидетельство</div>
-                <div class="docs__value">
-                  <div class="date">
-                    <input type="date" v-model="formData.main_documents.diploma" />
+                <div class="docs__value_datepicker" :class="{' red-bg':  !diplomaDateValidate,  'blue-bg': diplomaDateValidate}">
+                  <VueDatePicker @update:modelValue="handleChangeDiploma" :class="'pass-date'" v-model="formData.main_documents.diploma" hide-input-icon auto-apply :time-config="{ enableTimePicker: false }" :formats="{month: 'LLL', year: 'yyyy', day: 'dd', input: 'dd.MM.yyyy', preview: undefined}" :locale="ru">
+
+                  </VueDatePicker>
+
+                  <div v-if="v$.main_documents.diploma.$error && v$.main_documents.diploma.required.$invalid" class="input-error">
+                    <span>Пожалуйста, заполните поле</span>
                   </div>
                 </div>
 
                 <div class="docs__label">Начальная подготовка по безопасности</div>
                 <div class="docs__value">
-                  <input
+                  <AfInput
+                      place="Введите данные"
                       type="text"
-                      placeholder="Введите данные"
                       v-model="formData.main_documents.initial_safety_training"
+                      :error="v$.main_documents.initial_safety_training.$error && v$.main_documents.initial_safety_training.required.$invalid"
                   />
                 </div>
 
@@ -353,13 +371,13 @@
                   <div class="docs__head">Действительно до:</div>
 
                   <div class="docs__label">ГМССБ</div>
-                  <div class="docs__value alert">
-                    <div class="date">
-                      <input type="date" v-model="formData.shipwrights_papers.gmssb" />
-                    </div>
-                    <div class="info" style="display: none">
+                  <div class="docs__value_datepicker" :class="{' red-bg':  !gmssbDateValidate,  'blue-bg': gmssbDateValidate}">
+                    <VueDatePicker @update:modelValue="handleChangeGmssb" :class="'pass-date'" v-model="formData.shipwrights_papers.gmssb" hide-input-icon auto-apply :time-config="{ enableTimePicker: false }" :formats="{month: 'LLL', year: 'yyyy', day: 'dd', input: 'dd.MM.yyyy', preview: undefined}" :locale="ru">
+
+                    </VueDatePicker>
+                    <div v-if="!gmssbDateValidate" class="info">
                       <img src="assets/img/resume/alert.svg" alt="" />
-                      <span>Срок действия истек! Заменить можно <a href="#">здесь</a></span>
+                      <span>Срок действия истек! Заменить можно <a target="_blank" href="#">здесь</a></span>
                     </div>
                   </div>
 
@@ -369,9 +387,13 @@
                   </div>
 
                   <div class="docs__label">РЛТ</div>
-                  <div class="docs__value">
-                    <div class="date">
-                      <input type="date" v-model="formData.shipwrights_papers.rlt" />
+                  <div class="docs__value_datepicker" :class="{' red-bg':  !rltDateValidate,  'blue-bg': rltDateValidate}">
+                    <VueDatePicker @update:modelValue="handleChangeRlt" :class="'pass-date'" v-model="formData.shipwrights_papers.rlt" hide-input-icon auto-apply :time-config="{ enableTimePicker: false }" :formats="{month: 'LLL', year: 'yyyy', day: 'dd', input: 'dd.MM.yyyy', preview: undefined}" :locale="ru">
+
+                    </VueDatePicker>
+                    <div v-if="!rltDateValidate" class="info">
+                      <img src="assets/img/resume/alert.svg" alt="" />
+                      <span>Срок действия истек! Заменить можно <a target="_blank" href="#">здесь</a></span>
                     </div>
                   </div>
 
@@ -395,16 +417,13 @@
                   <div class="docs__head">Действительно до:</div>
 
                   <div class="docs__label">Изолирующие дыхательные приборы</div>
-                  <div class="docs__value alert">
-                    <div class="date">
-                      <input
-                          type="date"
-                          v-model="formData.additional_documents.isolation_breathing_apparatus"
-                      />
-                    </div>
-                    <div class="info" style="display: none">
+                  <div class="docs__value_datepicker" :class="{' red-bg':  !isolation_breathing_apparatusDateValidate,  'blue-bg': isolation_breathing_apparatusDateValidate}">
+                    <VueDatePicker @update:modelValue="handleChangeIsolationBreathingApparatus" :class="'pass-date'" v-model="formData.additional_documents.isolation_breathing_apparatus" hide-input-icon auto-apply :time-config="{ enableTimePicker: false }" :formats="{month: 'LLL', year: 'yyyy', day: 'dd', input: 'dd.MM.yyyy', preview: undefined}" :locale="ru">
+
+                    </VueDatePicker>
+                    <div v-if="!isolation_breathing_apparatusDateValidate" class="info">
                       <img src="assets/img/resume/alert.svg" alt="" />
-                      <span>Срок действия истек! Заменить можно <a href="#">здесь</a></span>
+                      <span>Срок действия истек! Заменить можно <a target="_blank" href="#">здесь</a></span>
                     </div>
                   </div>
 
@@ -414,9 +433,13 @@
                   </div>
 
                   <div class="docs__label">Транспортная безопасность</div>
-                  <div class="docs__value">
-                    <div class="date">
-                      <input type="date" v-model="formData.additional_documents.transportation_safety" />
+                  <div class="docs__value_datepicker" :class="{' red-bg':  !transportation_safetyDateValidate,  'blue-bg': transportation_safetyDateValidate}">
+                    <VueDatePicker @update:modelValue="handleChangeTransportationSafety" :class="'pass-date'" v-model="formData.additional_documents.transportation_safety" hide-input-icon auto-apply :time-config="{ enableTimePicker: false }" :formats="{month: 'LLL', year: 'yyyy', day: 'dd', input: 'dd.MM.yyyy', preview: undefined}" :locale="ru">
+
+                    </VueDatePicker>
+                    <div v-if="!transportation_safetyDateValidate" class="info">
+                      <img src="assets/img/resume/alert.svg" alt="" />
+                      <span>Срок действия истек! Заменить можно <a target="_blank" href="#">здесь</a></span>
                     </div>
                   </div>
 
@@ -680,6 +703,9 @@ import { VueDatePicker } from '@vuepic/vue-datepicker';
 import ru from "date-fns/locale/ru";
 import '@vuepic/vue-datepicker/dist/main.css'
 
+import useVuelidate from "@vuelidate/core";
+import {required, email, minLength} from "@vuelidate/validators";
+
 const router = useRouter();
 const { $uploadFile, $deleteFile } = useNuxtApp();
 
@@ -720,6 +746,28 @@ const TARIF_META = {
   "Трудоустроен": { code: "3" },
 };
 
+
+
+const rules = {
+  first_name: {required},
+  last_name: {required},
+  main_documents: {
+    foreign_passport: {required},
+    seafarers_ID_card: {required},
+    diploma: {required},
+    initial_safety_training: {required}
+  }
+};
+
+const passportDateValidate = ref(true)
+const diplomaDateValidate = ref(true)
+
+const gmssbDateValidate = ref(true)
+const rltDateValidate = ref(true)
+const isolation_breathing_apparatusDateValidate = ref(true)
+const transportation_safetyDateValidate = ref(true)
+
+
 const formData = ref({
   photo_path: null,
   avatar: null,
@@ -735,7 +783,9 @@ const formData = ref({
   country: "",
   region: "",
   city: "",
-  main_documents: {},
+  main_documents: {
+    seafarers_ID_card: ""
+  },
   shipwrights_papers: {},
   additional_documents: {},
   working_experience_new: [],
@@ -747,6 +797,7 @@ const formData = ref({
   },
 });
 
+const v$ = useVuelidate(rules, formData);
 function prepareServerDate(date) {
     if (date.toLocaleDateString) {
       let tmp = date.toLocaleDateString('en-Us', {
@@ -900,6 +951,109 @@ const prepareDataForSending = () => {
   };
 };
 
+const handleChangePassport = async() => {
+
+  setTimeout(() => {
+    let tmpMoscow = new Date();
+    tmpMoscow = tmpMoscow.toLocaleString("en-US", { timeZone: "Europe/Moscow" });
+    let today = new Date(tmpMoscow);
+
+    let tmp = new Date(formData.value.main_documents.foreign_passport).getTime();
+    if (tmp > today) {
+      passportDateValidate.value = true;
+    } else {
+      passportDateValidate.value = false;
+    }
+  }, 100)
+}
+handleChangePassport();
+const handleChangeDiploma = async() => {
+  setTimeout(() => {
+    let tmpMoscow = new Date();
+    tmpMoscow = tmpMoscow.toLocaleString("en-US", { timeZone: "Europe/Moscow" });
+    let today = new Date(tmpMoscow);
+
+    let tmp = new Date(formData.value.main_documents.diploma).getTime();
+    if (tmp > today) {
+      diplomaDateValidate.value = true;
+    } else {
+      diplomaDateValidate.value = false;
+    }
+  }, 100)
+}
+handleChangeDiploma();
+
+
+
+const handleChangeGmssb = async() => {
+
+  setTimeout(() => {
+    let tmpMoscow = new Date();
+    tmpMoscow = tmpMoscow.toLocaleString("en-US", { timeZone: "Europe/Moscow" });
+    let today = new Date(tmpMoscow);
+
+    let tmp = new Date(formData.value.shipwrights_papers.gmssb).getTime();
+    if (tmp > today) {
+      gmssbDateValidate.value = true;
+    } else {
+      gmssbDateValidate.value = false;
+    }
+  }, 100)
+}
+handleChangeGmssb();
+const handleChangeRlt = async() => {
+
+  setTimeout(() => {
+    let tmpMoscow = new Date();
+    tmpMoscow = tmpMoscow.toLocaleString("en-US", { timeZone: "Europe/Moscow" });
+    let today = new Date(tmpMoscow);
+
+    let tmp = new Date(formData.value.shipwrights_papers.rlt).getTime();
+    if (tmp > today) {
+      rltDateValidate.value = true;
+    } else {
+      rltDateValidate.value = false;
+    }
+  }, 100)
+}
+handleChangeRlt();
+const handleChangeIsolationBreathingApparatus = async() => {
+
+  setTimeout(() => {
+    let tmpMoscow = new Date();
+    tmpMoscow = tmpMoscow.toLocaleString("en-US", { timeZone: "Europe/Moscow" });
+    let today = new Date(tmpMoscow);
+
+    let tmp = new Date(formData.value.additional_documents.isolation_breathing_apparatus).getTime();
+    if (tmp > today) {
+      isolation_breathing_apparatusDateValidate.value = true;
+    } else {
+      isolation_breathing_apparatusDateValidate.value = false;
+    }
+  }, 100)
+}
+handleChangeIsolationBreathingApparatus();
+const handleChangeTransportationSafety = async() => {
+
+  setTimeout(() => {
+    let tmpMoscow = new Date();
+    tmpMoscow = tmpMoscow.toLocaleString("en-US", { timeZone: "Europe/Moscow" });
+    let today = new Date(tmpMoscow);
+
+    let tmp = new Date(formData.value.additional_documents.transportation_safety).getTime();
+    if (tmp > today) {
+      transportation_safetyDateValidate.value = true;
+    } else {
+      transportation_safetyDateValidate.value = false;
+    }
+  }, 100)
+}
+handleChangeTransportationSafety();
+
+
+
+
+
 const saveResume = async () => {
   const dataToSubmit = prepareDataForSending();
 
@@ -926,19 +1080,70 @@ const saveResume = async () => {
   if (dataToSubmit.birth_date) {
     dataToSubmit.birth_date = prepareServerDate(dataToSubmit.birth_date);
   } else {
-    //delete dataToSubmit['birth_date'];
     dataToSubmit.birth_date = null;
   }
 
+  if (dataToSubmit.main_documents.foreign_passport) {
+    dataToSubmit.main_documents.foreign_passport = prepareServerDate(dataToSubmit.main_documents.foreign_passport);
+  } else {
+    dataToSubmit.main_documents.foreign_passport = null;
+  }
+
+  if (dataToSubmit.main_documents.diploma) {
+    dataToSubmit.main_documents.diploma = prepareServerDate(dataToSubmit.main_documents.diploma);
+  } else {
+    dataToSubmit.main_documents.diploma = null;
+  }
+
+  if (dataToSubmit.shipwrights_papers.gmssb) {
+    dataToSubmit.shipwrights_papers.gmssb = prepareServerDate(dataToSubmit.shipwrights_papers.gmssb);
+  } else {
+    dataToSubmit.shipwrights_papers.gmssb = null;
+  }
+
+  if (dataToSubmit.shipwrights_papers.rlt) {
+    dataToSubmit.shipwrights_papers.rlt = prepareServerDate(dataToSubmit.shipwrights_papers.rlt);
+  } else {
+    dataToSubmit.shipwrights_papers.rlt = null;
+  }
+
+  if (dataToSubmit.additional_documents.isolation_breathing_apparatus) {
+    dataToSubmit.additional_documents.isolation_breathing_apparatus = prepareServerDate(dataToSubmit.additional_documents.isolation_breathing_apparatus);
+  } else {
+    dataToSubmit.additional_documents.isolation_breathing_apparatus = null;
+  }
+
+  if (dataToSubmit.additional_documents.transportation_safety) {
+    dataToSubmit.additional_documents.transportation_safety = prepareServerDate(dataToSubmit.additional_documents.transportation_safety);
+  } else {
+    dataToSubmit.additional_documents.transportation_safety = null;
+  }
+
+
   //alert(dataToSubmit.birth_date);
 
-  await api.put("/resume", dataToSubmit).then(() => {
-    deletedFiles.value.forEach(async (file) => {
-      await $deleteFile(file);
+  v$.value.$touch();
+
+  if (!v$.value.$error) {
+    await api.put("/resume", dataToSubmit).then(() => {
+      deletedFiles.value.forEach(async (file) => {
+        await $deleteFile(file);
+      });
+      deletedFiles.value = [];
+      window.location.reload();
     });
-    deletedFiles.value = [];
-    window.location.reload();
-  });
+  } else {
+    if (v$.value.main_documents.$error) {
+      $('html, body').animate({
+        scrollTop: $(".docs-block-table-main").offset().top
+      }, 300);
+    } else {
+      $('html, body').animate({
+        scrollTop: $(".tab-body").offset().top
+      }, 300);
+    }
+  }
+
 };
 
 const deleteAvatar = async () => {
@@ -1198,4 +1403,32 @@ const deleteUploadedFile = async (index) => {
     font-size: 14px;
   }
 }
+
+.docs__value_datepicker {
+  padding: 14px 10px;
+  border: solid 1px #d5d7ef;
+  border-bottom: none;
+}
+
+.docs__value_datepicker.red-bg {
+  background: #ffcbcb;
+}
+.docs__value_datepicker.blue-bg {
+  background: #aedcff;
+}
+
+.docs__value_datepicker .info {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 10px;
+}
+.docs__value_datepicker .info span{
+  margin-left: 8px;
+}
+.docs__value_datepicker .info span a {
+  color: blue;
+  text-decoration: underline;
+}
+
 </style>
