@@ -234,7 +234,7 @@
 
                   </VueDatePicker>
 
-                  <div v-if="!passportDateValidate" class="info">
+                  <div v-if="!passportDateValidate && formData.main_documents.foreign_passport" class="info">
                     <img src="assets/img/resume/alert.svg" alt="" />
                     <span>Срок действия истек! Заменить можно <a target="_blank" href="#">здесь</a></span>
                   </div>
@@ -375,7 +375,7 @@
                     <VueDatePicker @update:modelValue="handleChangeGmssb" :class="'pass-date'" v-model="formData.shipwrights_papers.gmssb" hide-input-icon auto-apply :time-config="{ enableTimePicker: false }" :formats="{month: 'LLL', year: 'yyyy', day: 'dd', input: 'dd.MM.yyyy', preview: undefined}" :locale="ru">
 
                     </VueDatePicker>
-                    <div v-if="!gmssbDateValidate" class="info">
+                    <div v-if="!gmssbDateValidate && formData.shipwrights_papers.gmssb" class="info">
                       <img src="assets/img/resume/alert.svg" alt="" />
                       <span>Срок действия истек! Заменить можно <a target="_blank" href="#">здесь</a></span>
                     </div>
@@ -391,7 +391,7 @@
                     <VueDatePicker @update:modelValue="handleChangeRlt" :class="'pass-date'" v-model="formData.shipwrights_papers.rlt" hide-input-icon auto-apply :time-config="{ enableTimePicker: false }" :formats="{month: 'LLL', year: 'yyyy', day: 'dd', input: 'dd.MM.yyyy', preview: undefined}" :locale="ru">
 
                     </VueDatePicker>
-                    <div v-if="!rltDateValidate" class="info">
+                    <div v-if="!rltDateValidate && formData.shipwrights_papers.rlt" class="info">
                       <img src="assets/img/resume/alert.svg" alt="" />
                       <span>Срок действия истек! Заменить можно <a target="_blank" href="#">здесь</a></span>
                     </div>
@@ -421,7 +421,7 @@
                     <VueDatePicker @update:modelValue="handleChangeIsolationBreathingApparatus" :class="'pass-date'" v-model="formData.additional_documents.isolation_breathing_apparatus" hide-input-icon auto-apply :time-config="{ enableTimePicker: false }" :formats="{month: 'LLL', year: 'yyyy', day: 'dd', input: 'dd.MM.yyyy', preview: undefined}" :locale="ru">
 
                     </VueDatePicker>
-                    <div v-if="!isolation_breathing_apparatusDateValidate" class="info">
+                    <div v-if="!isolation_breathing_apparatusDateValidate && formData.additional_documents.isolation_breathing_apparatus" class="info">
                       <img src="assets/img/resume/alert.svg" alt="" />
                       <span>Срок действия истек! Заменить можно <a target="_blank" href="#">здесь</a></span>
                     </div>
@@ -437,7 +437,7 @@
                     <VueDatePicker @update:modelValue="handleChangeTransportationSafety" :class="'pass-date'" v-model="formData.additional_documents.transportation_safety" hide-input-icon auto-apply :time-config="{ enableTimePicker: false }" :formats="{month: 'LLL', year: 'yyyy', day: 'dd', input: 'dd.MM.yyyy', preview: undefined}" :locale="ru">
 
                     </VueDatePicker>
-                    <div v-if="!transportation_safetyDateValidate" class="info">
+                    <div v-if="!transportation_safetyDateValidate && formData.additional_documents.transportation_safety" class="info">
                       <img src="assets/img/resume/alert.svg" alt="" />
                       <span>Срок действия истек! Заменить можно <a target="_blank" href="#">здесь</a></span>
                     </div>
