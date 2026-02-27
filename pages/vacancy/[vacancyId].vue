@@ -349,9 +349,13 @@ onMounted(async () => {
     vacancyId.value = s[1];
   }
   for (let i = 0; i < vacancy.value.approved_offers.length; i++) {
-    console.log(i);
-    console.log(userProfileId.value.resumeID);
     if (userProfileId.value.resumeID === vacancy.value.approved_offers[i]) {
+      showContacts.value = true
+      break;
+    }
+  }
+  for (let i = 0; i < vacancy.value.approved_responses.length; i++) {
+    if (userProfileId.value.resumeID === vacancy.value.approved_responses[i]) {
       showContacts.value = true
       break;
     }

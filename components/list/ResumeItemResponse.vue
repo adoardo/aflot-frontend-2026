@@ -90,6 +90,9 @@ const ResumeId = JSON.parse(localStorage.getItem("global/user") || "{}")?.userPr
 const afDate = ref(convertAFDate(props.data.created_at, true));
 const emit = defineEmits(["refresh"]);
 
+import {useModalStore} from "~/store/modal";
+const {openModal, closeModal} = useModalStore();
+
 // --- DELETE NOTIFICATION ---
 const deleteNotification = async (sailorResumeId, vacancyId) => {
   const companyId = userInfo.value.info.id; // 🏢 company's user_id (notification owner)
@@ -123,6 +126,7 @@ const sendTelegramMessage = async (email, type, vacancyName, companyName) => {
 };
 
 const sendResponse = async (vacancyId, sailorId, vacancyname) => {
+  openModal('loader')
   try {
     await api.post(`/company-vacancy-incoming-response/${vacancyId}/accept/${sailorId}`);
     const UserData =JSON.parse(localStorage.getItem("global/user") || '{}')?.userdata
@@ -151,15 +155,16 @@ const sendResponse = async (vacancyId, sailorId, vacancyname) => {
         },
       });
     }
-
     emit("refresh");
-    window.location.href = "/";
+    window.location.href = "/accepted-sailors";
   } catch (e) {
     console.log("❌ Accept error:", e);
   }
+  closeModal('loader')
 };
 
 const cancelResponse = async (vacancyId, sailorId, vacancyname) => {
+  openModal('loader')
   try {
     await api.post(`/company-vacancy-incoming-response/${vacancyId}/cancel/${sailorId}`);
     const UserData =JSON.parse(localStorage.getItem("global/user") || '{}')?.userdata
@@ -190,10 +195,11 @@ const cancelResponse = async (vacancyId, sailorId, vacancyname) => {
     }
 
     emit("refresh");
-    window.location.href = "/";
+    //window.location.href = "/";
   } catch (e) {
     console.log("❌ Cancel error:", e);
   }
+  closeModal('loader')
 };
 </script>
 
