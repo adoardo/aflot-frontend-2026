@@ -2,7 +2,7 @@
   <ClientOnly>
     <NuxtLayout name="default-hero">
       <div style="background-color: #fff">
-        <AfHeaderColor />
+        <AfHeaderColor/>
       </div>
       <section id="resume" class="main cabinet">
         <div class="container">
@@ -148,12 +148,12 @@
 
                 <div class="input">
                   <label for="">Отчество</label>
-                  <input type="text" v-model="formData.patronymic" />
+                  <input type="text" v-model="formData.patronymic"/>
                 </div>
 
                 <div class="input">
                   <label for="">Страна (где находитесь)</label>
-                  <input type="text" v-model="formData.country" />
+                  <input type="text" v-model="formData.country"/>
                 </div>
 
                 <div class="input region-field" @pointerdown.stop>
@@ -190,12 +190,15 @@
 
                 <div class="input">
                   <label for="">Город</label>
-                  <input type="text" v-model="formData.city" />
+                  <input type="text" v-model="formData.city"/>
                 </div>
 
                 <div class="input">
                   <label for="">Дата рождения</label>
-                  <VueDatePicker v-model="formData.birth_date" hide-input-icon auto-apply :time-config="{ enableTimePicker: false }" :formats="{month: 'LLL', year: 'yyyy', day: 'dd', input: 'dd.MM.yyyy', preview: undefined}" :locale="ru">
+                  <VueDatePicker v-model="formData.birth_date" hide-input-icon auto-apply
+                                 :time-config="{ enableTimePicker: false }"
+                                 :formats="{month: 'LLL', year: 'yyyy', day: 'dd', input: 'dd.MM.yyyy', preview: undefined}"
+                                 :locale="ru">
                     <template #input-icon>
 
                     </template>
@@ -204,7 +207,7 @@
 
                 <div class="input">
                   <label for="">Контактный телефон</label>
-                  <input type="text" v-model="formData.phone_number" />
+                  <input type="text" v-model="formData.phone_number"/>
                 </div>
               </div>
             </div>
@@ -229,17 +232,24 @@
                 <div class="docs__head">Данные:</div>
 
                 <div class="docs__label">Заграничный паспорт</div>
-                <div class="docs__value_datepicker" :class="{' red-bg':  !passportDateValidate,  'blue-bg': passportDateValidate}">
-                  <VueDatePicker @update:modelValue="handleChangePassport" :class="'pass-date'" v-model="formData.main_documents.foreign_passport" hide-input-icon auto-apply :time-config="{ enableTimePicker: false }" :formats="{month: 'LLL', year: 'yyyy', day: 'dd', input: 'dd.MM.yyyy', preview: undefined}" :locale="ru">
+                <div class="docs__value_datepicker"
+                     :class="{' red-bg':  !passportDateValidate && (formData.main_documents.foreign_passport !== null),  'blue-bg': passportDateValidate}">
+                  <VueDatePicker @update:modelValue="handleChangePassport" :class="'pass-date'"
+                                 v-model="formData.main_documents.foreign_passport" hide-input-icon auto-apply
+                                 :time-config="{ enableTimePicker: false }"
+                                 :formats="{month: 'LLL', year: 'yyyy', day: 'dd', input: 'dd.MM.yyyy', preview: undefined}"
+                                 :locale="ru">
 
                   </VueDatePicker>
 
                   <div v-if="!passportDateValidate && formData.main_documents.foreign_passport" class="info">
-                    <img src="assets/img/resume/alert.svg" alt="" />
+                    <img src="assets/img/resume/alert.svg" alt=""/>
                     <span>Срок действия истек! Заменить можно <a target="_blank" href="#">здесь</a></span>
                   </div>
 
-                  <div v-if="v$.main_documents.foreign_passport.$error && v$.main_documents.foreign_passport.required.$invalid" class="input-error">
+                  <div
+                      v-if="v$.main_documents.foreign_passport.$error && v$.main_documents.foreign_passport.required.$invalid"
+                      class="input-error">
                     <span>Пожалуйста, заполните поле</span>
                   </div>
 
@@ -256,14 +266,18 @@
                 </div>
 
 
-
                 <div class="docs__label">Диплом/ Свидетельство</div>
-                <div class="docs__value_datepicker" :class="{' red-bg':  !diplomaDateValidate,  'blue-bg': diplomaDateValidate}">
-                  <VueDatePicker @update:modelValue="handleChangeDiploma" :class="'pass-date'" v-model="formData.main_documents.diploma" hide-input-icon auto-apply :time-config="{ enableTimePicker: false }" :formats="{month: 'LLL', year: 'yyyy', day: 'dd', input: 'dd.MM.yyyy', preview: undefined}" :locale="ru">
+                <div class="docs__value_datepicker">
+                  <VueDatePicker @update:modelValue="handleChangeDiploma" :class="'pass-date'"
+                                 v-model="formData.main_documents.diploma" hide-input-icon auto-apply
+                                 :time-config="{ enableTimePicker: false }"
+                                 :formats="{month: 'LLL', year: 'yyyy', day: 'dd', input: 'dd.MM.yyyy', preview: undefined}"
+                                 :locale="ru">
 
                   </VueDatePicker>
 
-                  <div v-if="v$.main_documents.diploma.$error && v$.main_documents.diploma.required.$invalid" class="input-error">
+                  <div v-if="v$.main_documents.diploma.$error && v$.main_documents.diploma.required.$invalid"
+                       class="input-error">
                     <span>Пожалуйста, заполните поле</span>
                   </div>
                 </div>
@@ -361,7 +375,7 @@
               <div class="docs-block-item">
                 <h2>
                   <div class="check">
-                    <img src="assets/img/resume/check.svg" alt="check" />
+                    <img src="assets/img/resume/check.svg" alt="check"/>
                   </div>
                   Документы судоводителей:
                 </h2>
@@ -371,35 +385,45 @@
                   <div class="docs__head">Действительно до:</div>
 
                   <div class="docs__label">ГМССБ</div>
-                  <div class="docs__value_datepicker" :class="{' red-bg':  !gmssbDateValidate,  'blue-bg': gmssbDateValidate}">
-                    <VueDatePicker @update:modelValue="handleChangeGmssb" :class="'pass-date'" v-model="formData.shipwrights_papers.gmssb" hide-input-icon auto-apply :time-config="{ enableTimePicker: false }" :formats="{month: 'LLL', year: 'yyyy', day: 'dd', input: 'dd.MM.yyyy', preview: undefined}" :locale="ru">
+                  <div class="docs__value_datepicker"
+                       :class="{' red-bg':  !gmssbDateValidate && (formData.shipwrights_papers.gmssb !== null),  'blue-bg': gmssbDateValidate}">
+                    <VueDatePicker @update:modelValue="handleChangeGmssb" :class="'pass-date'"
+                                   v-model="formData.shipwrights_papers.gmssb" hide-input-icon auto-apply
+                                   :time-config="{ enableTimePicker: false }"
+                                   :formats="{month: 'LLL', year: 'yyyy', day: 'dd', input: 'dd.MM.yyyy', preview: undefined}"
+                                   :locale="ru">
 
                     </VueDatePicker>
                     <div v-if="!gmssbDateValidate && formData.shipwrights_papers.gmssb" class="info">
-                      <img src="assets/img/resume/alert.svg" alt="" />
+                      <img src="assets/img/resume/alert.svg" alt=""/>
                       <span>Срок действия истек! Заменить можно <a target="_blank" href="#">здесь</a></span>
                     </div>
                   </div>
 
                   <div class="docs__label">ЭКНИС</div>
                   <div class="docs__value">
-                    <input type="text" placeholder="Введите данные" v-model="formData.shipwrights_papers.eknis" />
+                    <input type="text" placeholder="Введите данные" v-model="formData.shipwrights_papers.eknis"/>
                   </div>
 
                   <div class="docs__label">РЛТ</div>
-                  <div class="docs__value_datepicker" :class="{' red-bg':  !rltDateValidate,  'blue-bg': rltDateValidate}">
-                    <VueDatePicker @update:modelValue="handleChangeRlt" :class="'pass-date'" v-model="formData.shipwrights_papers.rlt" hide-input-icon auto-apply :time-config="{ enableTimePicker: false }" :formats="{month: 'LLL', year: 'yyyy', day: 'dd', input: 'dd.MM.yyyy', preview: undefined}" :locale="ru">
+                  <div class="docs__value_datepicker"
+                       :class="{' red-bg':  !rltDateValidate && (formData.shipwrights_papers.rlt !== null),  'blue-bg': rltDateValidate}">
+                    <VueDatePicker @update:modelValue="handleChangeRlt" :class="'pass-date'"
+                                   v-model="formData.shipwrights_papers.rlt" hide-input-icon auto-apply
+                                   :time-config="{ enableTimePicker: false }"
+                                   :formats="{month: 'LLL', year: 'yyyy', day: 'dd', input: 'dd.MM.yyyy', preview: undefined}"
+                                   :locale="ru">
 
                     </VueDatePicker>
                     <div v-if="!rltDateValidate && formData.shipwrights_papers.rlt" class="info">
-                      <img src="assets/img/resume/alert.svg" alt="" />
+                      <img src="assets/img/resume/alert.svg" alt=""/>
                       <span>Срок действия истек! Заменить можно <a target="_blank" href="#">здесь</a></span>
                     </div>
                   </div>
 
                   <div class="docs__label">САРП</div>
                   <div class="docs__value">
-                    <input type="text" placeholder="Введите данные" v-model="formData.shipwrights_papers.sarp" />
+                    <input type="text" placeholder="Введите данные" v-model="formData.shipwrights_papers.sarp"/>
                   </div>
                 </div>
               </div>
@@ -407,7 +431,7 @@
               <div class="docs-block-item">
                 <h2>
                   <div class="check">
-                    <img src="assets/img/resume/check.svg" alt="check" />
+                    <img src="assets/img/resume/check.svg" alt="check"/>
                   </div>
                   Дополнительные документы:
                 </h2>
@@ -417,35 +441,51 @@
                   <div class="docs__head">Действительно до:</div>
 
                   <div class="docs__label">Изолирующие дыхательные приборы</div>
-                  <div class="docs__value_datepicker" :class="{' red-bg':  !isolation_breathing_apparatusDateValidate,  'blue-bg': isolation_breathing_apparatusDateValidate}">
-                    <VueDatePicker @update:modelValue="handleChangeIsolationBreathingApparatus" :class="'pass-date'" v-model="formData.additional_documents.isolation_breathing_apparatus" hide-input-icon auto-apply :time-config="{ enableTimePicker: false }" :formats="{month: 'LLL', year: 'yyyy', day: 'dd', input: 'dd.MM.yyyy', preview: undefined}" :locale="ru">
+                  <div class="docs__value_datepicker"
+                       :class="{' red-bg':  !isolation_breathing_apparatusDateValidate && (formData.additional_documents.isolation_breathing_apparatus !== null),  'blue-bg': isolation_breathing_apparatusDateValidate}">
+                    <VueDatePicker @update:modelValue="handleChangeIsolationBreathingApparatus" :class="'pass-date'"
+                                   v-model="formData.additional_documents.isolation_breathing_apparatus" hide-input-icon
+                                   auto-apply :time-config="{ enableTimePicker: false }"
+                                   :formats="{month: 'LLL', year: 'yyyy', day: 'dd', input: 'dd.MM.yyyy', preview: undefined}"
+                                   :locale="ru">
 
                     </VueDatePicker>
-                    <div v-if="!isolation_breathing_apparatusDateValidate && formData.additional_documents.isolation_breathing_apparatus" class="info">
-                      <img src="assets/img/resume/alert.svg" alt="" />
+                    <div
+                        v-if="!isolation_breathing_apparatusDateValidate && formData.additional_documents.isolation_breathing_apparatus"
+                        class="info">
+                      <img src="assets/img/resume/alert.svg" alt=""/>
                       <span>Срок действия истек! Заменить можно <a target="_blank" href="#">здесь</a></span>
                     </div>
                   </div>
 
                   <div class="docs__label">Военно-морская подготовка</div>
                   <div class="docs__value">
-                    <input type="text" placeholder="Введите данные" v-model="formData.additional_documents.naval_training" />
+                    <input type="text" placeholder="Введите данные"
+                           v-model="formData.additional_documents.naval_training"/>
                   </div>
 
                   <div class="docs__label">Транспортная безопасность</div>
-                  <div class="docs__value_datepicker" :class="{' red-bg':  !transportation_safetyDateValidate,  'blue-bg': transportation_safetyDateValidate}">
-                    <VueDatePicker @update:modelValue="handleChangeTransportationSafety" :class="'pass-date'" v-model="formData.additional_documents.transportation_safety" hide-input-icon auto-apply :time-config="{ enableTimePicker: false }" :formats="{month: 'LLL', year: 'yyyy', day: 'dd', input: 'dd.MM.yyyy', preview: undefined}" :locale="ru">
+                  <div class="docs__value_datepicker"
+                       :class="{' red-bg':  !transportation_safetyDateValidate && (formData.additional_documents.transportation_safety !== null),  'blue-bg': transportation_safetyDateValidate}">
+                    <VueDatePicker @update:modelValue="handleChangeTransportationSafety && (formData.additional_documents.transportation_safety !== null)" :class="'pass-date'"
+                                   v-model="formData.additional_documents.transportation_safety" hide-input-icon
+                                   auto-apply :time-config="{ enableTimePicker: false }"
+                                   :formats="{month: 'LLL', year: 'yyyy', day: 'dd', input: 'dd.MM.yyyy', preview: undefined}"
+                                   :locale="ru">
 
                     </VueDatePicker>
-                    <div v-if="!transportation_safetyDateValidate && formData.additional_documents.transportation_safety" class="info">
-                      <img src="assets/img/resume/alert.svg" alt="" />
+                    <div
+                        v-if="!transportation_safetyDateValidate && formData.additional_documents.transportation_safety"
+                        class="info">
+                      <img src="assets/img/resume/alert.svg" alt=""/>
                       <span>Срок действия истек! Заменить можно <a target="_blank" href="#">здесь</a></span>
                     </div>
                   </div>
 
                   <div class="docs__label">Танкерное свидетельство</div>
                   <div class="docs__value">
-                    <input type="text" placeholder="Введите данные" v-model="formData.additional_documents.tanker_certificate" />
+                    <input type="text" placeholder="Введите данные"
+                           v-model="formData.additional_documents.tanker_certificate"/>
                   </div>
                 </div>
               </div>
@@ -453,7 +493,7 @@
 
             <h2 class="with-subtitle">Опыт работы:</h2>
             <div class="cabinet-subtitle">
-              <img src="assets/img/resume/info.png" alt="info" />
+              <img src="assets/img/resume/info.png" alt="info"/>
               Система автоматически сортирует вакансии по периоду работы, в порядке убывания,
               от сегоднянешго (последнего) к годам ранее. Заполняйте информацию, в удобном для Вас порядке.
             </div>
@@ -472,32 +512,32 @@
                 <tbody>
                 <tr v-for="(item, index) in itemsWork" :key="index">
                   <td data-title="Судовладелец">
-                    <input v-model="item.shipowner" type="text" placeholder="Введите данные" />
+                    <input v-model="item.shipowner" type="text" placeholder="Введите данные"/>
                   </td>
                   <td data-title="Тип судна">
-                    <input v-model="item.type_of_vessel" type="text" placeholder="Введите данные" />
+                    <input v-model="item.type_of_vessel" type="text" placeholder="Введите данные"/>
                   </td>
                   <td data-title="Название судна">
-                    <input v-model="item.ships_name" type="text" placeholder="Введите данные" />
+                    <input v-model="item.ships_name" type="text" placeholder="Введите данные"/>
                   </td>
                   <td data-title="Должность">
-                    <input v-model="item.position" type="text" placeholder="Введите данные" />
+                    <input v-model="item.position" type="text" placeholder="Введите данные"/>
                   </td>
                   <td data-title="Период работы">
                     <div class="wne-dates">
                         <span>
                           <label>с</label>
-                          <input v-model="item.period_of_work_from" type="date" placeholder="с" />
+                          <input v-model="item.period_of_work_from" type="date" placeholder="с"/>
                         </span>
                       <span>
                           <label>по</label>
-                          <input v-model="item.period_of_work_to" type="date" placeholder="по" />
+                          <input v-model="item.period_of_work_to" type="date" placeholder="по"/>
                         </span>
                     </div>
                   </td>
                   <td class="resume-experience__delete">
                     <button @click="deleteWorkExpierience(index)">
-                      <img src="assets/img/resume/delete.png" alt="delete" />
+                      <img src="assets/img/resume/delete.png" alt="delete"/>
                     </button>
                   </td>
                 </tr>
@@ -528,7 +568,7 @@
                   </NuxtLink>
                 </a>
                 <button @click="deleteUploadedFile(index)">
-                  <img style="min-width: 26px" src="assets/img/resume/delete.png" alt="delete" />
+                  <img style="min-width: 26px" src="assets/img/resume/delete.png" alt="delete"/>
                 </button>
               </div>
 
@@ -542,7 +582,7 @@
                 />
 
                 <div class="file__icon">
-                  <img src="assets/img/resume/file.png" alt="file" />
+                  <img src="assets/img/resume/file.png" alt="file"/>
                 </div>
                 <div class="file__label">Загрузить файл</div>
               </div>
@@ -577,11 +617,11 @@
             <div class="resume-grid col2 resume-contact-setting">
               <div class="resume-contact">
                 <div class="resume-contact__icon">
-                  <img src="assets/img/resume/icon-phone.png" alt="phone" />
+                  <img src="assets/img/resume/icon-phone.png" alt="phone"/>
                 </div>
                 <div class="resume-contact__content completed">
                   {{ userInfo.info.phone_number }}
-                  <img src="assets/img/resume/check.svg" alt="done" />
+                  <img src="assets/img/resume/check.svg" alt="done"/>
                 </div>
               </div>
               <div class="resume-contact__second">
@@ -594,7 +634,7 @@
 
               <div class="resume-contact">
                 <div class="resume-contact__icon">
-                  <img src="assets/img/resume/icon-mail.png" alt="phone" />
+                  <img src="assets/img/resume/icon-mail.png" alt="phone"/>
                 </div>
                 <div v-if="!is_verified" class="resume-contact__content">
                   {{ userInfo.info.email }}
@@ -602,7 +642,7 @@
                 </div>
                 <div v-else class="resume-contact__content completed">
                   {{ userInfo.info.email }}
-                  <img src="assets/img/resume/check.svg" alt="done" />
+                  <img src="assets/img/resume/check.svg" alt="done"/>
                 </div>
               </div>
               <div class="resume-contact__second">
@@ -615,16 +655,16 @@
 
               <div class="resume-contact">
                 <div class="resume-contact__icon">
-                  <img src="assets/img/resume/icon-tg.png" alt="phone" />
+                  <img src="assets/img/resume/icon-tg.png" alt="phone"/>
                 </div>
 
-                <TelegramConnect v-if="!is_tg" />
+                <TelegramConnect v-if="!is_tg"/>
 
                 <div v-if="!is_tg" style="cursor: pointer" class="resume-contact__content empty forTg">
                   Подключить Telegram
                 </div>
                 <div v-if="is_tg" class="resume-contact__content empty tg-approved" style="cursor: default">
-                  Telegram подключен<img src="assets/img/resume/check.svg" alt="done" />
+                  Telegram подключен<img src="assets/img/resume/check.svg" alt="done"/>
                 </div>
               </div>
               <div class="resume-contact__second">
@@ -639,7 +679,7 @@
             <h2 class="with-subtitle">Рассылка</h2>
 
             <label class="custom-checkbox">
-              <input type="checkbox" v-model="formData.notification_settings.mailing_notification" />
+              <input type="checkbox" v-model="formData.notification_settings.mailing_notification"/>
               <span class="checkmark"></span>
               Хочу получать <a href="#">рассылку по новым вакансиям</a> для выбранных должностей
             </label>
@@ -649,21 +689,21 @@
             <div class="resume-password">
               <button class="resume-action-btn" @click="toggleModal('changephone')" v-if="false">
                 <div class="resume-action-left">
-                  <img src="assets/img/resume/icon-phone.png" alt="phone" />
+                  <img src="assets/img/resume/icon-phone.png" alt="phone"/>
                   <span>Изменить номер телефона</span>
                 </div>
               </button>
 
               <button class="resume-action-btn" @click="toggleModal('changeinfo')">
                 <div class="resume-action-left">
-                  <img src="assets/img/resume/icon-mail.png" alt="email" />
+                  <img src="assets/img/resume/icon-mail.png" alt="email"/>
                   <span>Изменить Email</span>
                 </div>
               </button>
 
               <button class="resume-action-btn" @click="openModal('approveTGDisconnect')">
                 <div class="resume-action-left">
-                  <img src="assets/img/resume/icon-tg.png" alt="telegram" />
+                  <img src="assets/img/resume/icon-tg.png" alt="telegram"/>
                   <span>Отключить Telegram</span>
                 </div>
               </button>
@@ -681,10 +721,10 @@
 </template>
 
 <script setup>
-definePageMeta({ middleware: ["sailor"] });
+definePageMeta({middleware: ["sailor"]});
 
-import { ref, computed, onMounted } from "vue";
-import { storeToRefs } from "pinia";
+import {ref, computed, onMounted} from "vue";
+import {storeToRefs} from "pinia";
 import api from "@/api/api";
 
 import AfHeaderColor from "@/components/AfHeaderColor.vue"; // if auto-import exists you can remove
@@ -693,13 +733,13 @@ import AfCheckbox from "@/components/uikit/AfCheckbox2";
 import AfDropDox from "@/components/uikit/AfDropDox";
 import TelegramConnect from "~/components/TelegramConnect.vue";
 
-import { useModalStore } from "~/store/modal";
-import { useUsersStore } from "~/store/useUserStore";
-import { useGlobalSettings } from "~/store/useGlobalSettings";
-import { useRouter } from "vue-router";
-import { onBeforeUnmount } from "vue";
+import {useModalStore} from "~/store/modal";
+import {useUsersStore} from "~/store/useUserStore";
+import {useGlobalSettings} from "~/store/useGlobalSettings";
+import {useRouter} from "vue-router";
+import {onBeforeUnmount} from "vue";
 
-import { VueDatePicker } from '@vuepic/vue-datepicker';
+import {VueDatePicker} from '@vuepic/vue-datepicker';
 import ru from "date-fns/locale/ru";
 import '@vuepic/vue-datepicker/dist/main.css'
 
@@ -707,17 +747,17 @@ import useVuelidate from "@vuelidate/core";
 import {required, email, minLength} from "@vuelidate/validators";
 
 const router = useRouter();
-const { $uploadFile, $deleteFile } = useNuxtApp();
+const {$uploadFile, $deleteFile} = useNuxtApp();
 
 const FILE_KEYS = ["photo_path", "media_files"];
 
 const userStore = useUsersStore();
-const { userInfo, isTg, isVk, userProfileId } = storeToRefs(userStore);
+const {userInfo, isTg, isVk, userProfileId} = storeToRefs(userStore);
 
-const { openModal, toggleModal } = useModalStore();
+const {openModal, toggleModal} = useModalStore();
 
 const globalSettings = useGlobalSettings();
-const { getAfShips, getAfJobs ,getAfRegionsRussia } = storeToRefs(globalSettings);
+const {getAfShips, getAfJobs, getAfRegionsRussia} = storeToRefs(globalSettings);
 
 const activeTab = ref("resumes");
 const showTarifDropdown = ref(false);
@@ -741,11 +781,10 @@ const normalizeTarif = (v) => {
 };
 
 const TARIF_META = {
-  "Ищу работу": { code: "1" },
-  "Рассмотрю предложение": { code: "2" },
-  "Трудоустроен": { code: "3" },
+  "Ищу работу": {code: "1"},
+  "Рассмотрю предложение": {code: "2"},
+  "Трудоустроен": {code: "3"},
 };
-
 
 
 const rules = {
@@ -798,21 +837,22 @@ const formData = ref({
 });
 
 const v$ = useVuelidate(rules, formData);
-function prepareServerDate(date) {
-    if (date.toLocaleDateString) {
-      let tmp = date.toLocaleDateString('en-Us', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric'
-      });
 
-      //YYYY-MM-DD
-      let tmp2 = tmp.split('/');
-      return tmp2[2] + '-' + tmp2[1] + '-' + tmp2[0];
-    } else {
-      let tmp2 = date.split('-');
-      return tmp2[0] + '-' + tmp2[1] + '-' + tmp2[2];
-    }
+const prepareServerDate = async (date) => {
+  if (date.toLocaleDateString) {
+    let tmp = date.toLocaleDateString('en-Us', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+
+    //YYYY-MM-DD
+    let tmp2 = tmp.split('/');
+    return tmp2[2] + '-' + tmp2[0] + '-' + tmp2[1];
+  } else {
+    let tmp2 = date.split('-');
+    return tmp2[0] + '-' + tmp2[1] + '-' + tmp2[2];
+  }
 
 }
 
@@ -842,23 +882,15 @@ const onTarifChange = async () => {
 const confirmEmail = async (email) => {
   openModal("confirmemail");
   try {
-    await api.post("/change_password", { email, type: "confirm_email" });
+    await api.post("/change_password", {email, type: "confirm_email"});
   } catch (error) {
     console.error("Error during verification:", error);
   }
 };
 
-function prepareRealDate(date) {
-  let tmp = date.split('-');
-  return tmp[0] + '-' + tmp[2] + '-' + tmp[1];
-}
 async function getResume() {
-  const { data } = await api.get("/resume");
+  const {data} = await api.get("/resume");
   resume.value = data;
-
-  if (resume.value.birth_date) {
-    resume.value.birth_date = prepareRealDate(resume.value.birth_date);
-  }
 
   formData.value = resume.value || {};
   formData.value.tarif = normalizeTarif(formData.value.tarif);
@@ -869,11 +901,17 @@ async function getResume() {
 
   uploadedFiles.value = formData.value.media_files || [];
   itemsWork.value = formData.value.working_experience_new || [];
+
+  handleChangePassport();
+  handleChangeGmssb();
+  handleChangeRlt();
+  handleChangeIsolationBreathingApparatus();
+  handleChangeTransportationSafety();
 }
 
 const loadVerification = async () => {
   try {
-    const { data } = await api.post("/getVerification", {
+    const {data} = await api.post("/getVerification", {
       email: userInfo?.value?.info?.email,
     });
     is_verified.value = data?.is_verified;
@@ -905,7 +943,7 @@ const regionKey = (r) =>
 
 const filteredRegions = computed(() => {
   const q = regionSearch.value.trim().toLowerCase();
-  console.log(regions , "aadasdasdasdasd")
+  console.log(regions, "aadasdasdasdasd")
   if (!q) return regions.value;
 
   return regions.value.filter((r) =>
@@ -951,11 +989,11 @@ const prepareDataForSending = () => {
   };
 };
 
-const handleChangePassport = async() => {
+const handleChangePassport = async () => {
 
   setTimeout(() => {
     let tmpMoscow = new Date();
-    tmpMoscow = tmpMoscow.toLocaleString("en-US", { timeZone: "Europe/Moscow" });
+    tmpMoscow = tmpMoscow.toLocaleString("en-US", {timeZone: "Europe/Moscow"});
     let today = new Date(tmpMoscow);
 
     let tmp = new Date(formData.value.main_documents.foreign_passport).getTime();
@@ -967,29 +1005,17 @@ const handleChangePassport = async() => {
   }, 100)
 }
 handleChangePassport();
-const handleChangeDiploma = async() => {
-  setTimeout(() => {
-    let tmpMoscow = new Date();
-    tmpMoscow = tmpMoscow.toLocaleString("en-US", { timeZone: "Europe/Moscow" });
-    let today = new Date(tmpMoscow);
+const handleChangeDiploma = async () => {
 
-    let tmp = new Date(formData.value.main_documents.diploma).getTime();
-    if (tmp > today) {
-      diplomaDateValidate.value = true;
-    } else {
-      diplomaDateValidate.value = false;
-    }
-  }, 100)
 }
 handleChangeDiploma();
 
 
-
-const handleChangeGmssb = async() => {
+const handleChangeGmssb = async () => {
 
   setTimeout(() => {
     let tmpMoscow = new Date();
-    tmpMoscow = tmpMoscow.toLocaleString("en-US", { timeZone: "Europe/Moscow" });
+    tmpMoscow = tmpMoscow.toLocaleString("en-US", {timeZone: "Europe/Moscow"});
     let today = new Date(tmpMoscow);
 
     let tmp = new Date(formData.value.shipwrights_papers.gmssb).getTime();
@@ -1001,11 +1027,11 @@ const handleChangeGmssb = async() => {
   }, 100)
 }
 handleChangeGmssb();
-const handleChangeRlt = async() => {
+const handleChangeRlt = async () => {
 
   setTimeout(() => {
     let tmpMoscow = new Date();
-    tmpMoscow = tmpMoscow.toLocaleString("en-US", { timeZone: "Europe/Moscow" });
+    tmpMoscow = tmpMoscow.toLocaleString("en-US", {timeZone: "Europe/Moscow"});
     let today = new Date(tmpMoscow);
 
     let tmp = new Date(formData.value.shipwrights_papers.rlt).getTime();
@@ -1017,11 +1043,11 @@ const handleChangeRlt = async() => {
   }, 100)
 }
 handleChangeRlt();
-const handleChangeIsolationBreathingApparatus = async() => {
+const handleChangeIsolationBreathingApparatus = async () => {
 
   setTimeout(() => {
     let tmpMoscow = new Date();
-    tmpMoscow = tmpMoscow.toLocaleString("en-US", { timeZone: "Europe/Moscow" });
+    tmpMoscow = tmpMoscow.toLocaleString("en-US", {timeZone: "Europe/Moscow"});
     let today = new Date(tmpMoscow);
 
     let tmp = new Date(formData.value.additional_documents.isolation_breathing_apparatus).getTime();
@@ -1033,11 +1059,11 @@ const handleChangeIsolationBreathingApparatus = async() => {
   }, 100)
 }
 handleChangeIsolationBreathingApparatus();
-const handleChangeTransportationSafety = async() => {
+const handleChangeTransportationSafety = async () => {
 
   setTimeout(() => {
     let tmpMoscow = new Date();
-    tmpMoscow = tmpMoscow.toLocaleString("en-US", { timeZone: "Europe/Moscow" });
+    tmpMoscow = tmpMoscow.toLocaleString("en-US", {timeZone: "Europe/Moscow"});
     let today = new Date(tmpMoscow);
 
     let tmp = new Date(formData.value.additional_documents.transportation_safety).getTime();
@@ -1049,9 +1075,6 @@ const handleChangeTransportationSafety = async() => {
   }, 100)
 }
 handleChangeTransportationSafety();
-
-
-
 
 
 const saveResume = async () => {
@@ -1078,43 +1101,40 @@ const saveResume = async () => {
   );
 
   if (dataToSubmit.birth_date) {
-    dataToSubmit.birth_date = prepareServerDate(dataToSubmit.birth_date);
+    dataToSubmit.birth_date = await prepareServerDate(dataToSubmit.birth_date);
   } else {
     dataToSubmit.birth_date = null;
   }
 
   if (dataToSubmit.main_documents.foreign_passport) {
-    dataToSubmit.main_documents.foreign_passport = prepareServerDate(dataToSubmit.main_documents.foreign_passport);
+    dataToSubmit.main_documents.foreign_passport = await prepareServerDate(dataToSubmit.main_documents.foreign_passport);
   } else {
     dataToSubmit.main_documents.foreign_passport = null;
   }
-
   if (dataToSubmit.main_documents.diploma) {
-    dataToSubmit.main_documents.diploma = prepareServerDate(dataToSubmit.main_documents.diploma);
+    dataToSubmit.main_documents.diploma = await prepareServerDate(dataToSubmit.main_documents.diploma);
   } else {
     dataToSubmit.main_documents.diploma = null;
   }
 
   if (dataToSubmit.shipwrights_papers.gmssb) {
-    dataToSubmit.shipwrights_papers.gmssb = prepareServerDate(dataToSubmit.shipwrights_papers.gmssb);
+    dataToSubmit.shipwrights_papers.gmssb = await prepareServerDate(dataToSubmit.shipwrights_papers.gmssb);
   } else {
     dataToSubmit.shipwrights_papers.gmssb = null;
   }
-
   if (dataToSubmit.shipwrights_papers.rlt) {
-    dataToSubmit.shipwrights_papers.rlt = prepareServerDate(dataToSubmit.shipwrights_papers.rlt);
+    dataToSubmit.shipwrights_papers.rlt = await prepareServerDate(dataToSubmit.shipwrights_papers.rlt);
   } else {
     dataToSubmit.shipwrights_papers.rlt = null;
   }
 
   if (dataToSubmit.additional_documents.isolation_breathing_apparatus) {
-    dataToSubmit.additional_documents.isolation_breathing_apparatus = prepareServerDate(dataToSubmit.additional_documents.isolation_breathing_apparatus);
+    dataToSubmit.additional_documents.isolation_breathing_apparatus = await prepareServerDate(dataToSubmit.additional_documents.isolation_breathing_apparatus);
   } else {
     dataToSubmit.additional_documents.isolation_breathing_apparatus = null;
   }
-
   if (dataToSubmit.additional_documents.transportation_safety) {
-    dataToSubmit.additional_documents.transportation_safety = prepareServerDate(dataToSubmit.additional_documents.transportation_safety);
+    dataToSubmit.additional_documents.transportation_safety = await prepareServerDate(dataToSubmit.additional_documents.transportation_safety);
   } else {
     dataToSubmit.additional_documents.transportation_safety = null;
   }
@@ -1210,12 +1230,15 @@ const deleteUploadedFile = async (index) => {
   border-bottom: 4px solid #3b45a9;
   color: #3b45a9;
 }
+
 .tab-body {
   display: block;
 }
+
 .resume-contact {
   position: relative;
 }
+
 .resume-contact__content.tg-approved {
   background-color: #3b45a9;
   color: #fff;
@@ -1272,6 +1295,7 @@ const deleteUploadedFile = async (index) => {
   color: #ffffff;
   transition: 0.3s all;
 }
+
 .delete:hover {
   background-color: #3b45a9;
 }
@@ -1286,16 +1310,17 @@ const deleteUploadedFile = async (index) => {
   padding: 20px 30px;
 }
 
-.region-select{
+.region-select {
   display: flex;
   align-items: center;
 }
 
-.resume-status__dropdown.region-dropdown{
+.resume-status__dropdown.region-dropdown {
   max-height: 200px;
   overflow-y: auto;
 }
-.dropdown-item{
+
+.dropdown-item {
   padding: 6px 0;
   cursor: pointer;
 }
@@ -1312,6 +1337,7 @@ const deleteUploadedFile = async (index) => {
   cursor: pointer;
   color: #fff;
 }
+
 .af-show-resume-button > div {
   font-size: 22px;
   color: #fff;
@@ -1320,10 +1346,12 @@ const deleteUploadedFile = async (index) => {
 .forTg {
   position: relative;
 }
+
 .resume-password {
   display: flex;
   flex-direction: column;
 }
+
 .resume-action-btn {
   width: 100%;
   background: #fff;
@@ -1348,6 +1376,7 @@ const deleteUploadedFile = async (index) => {
   align-items: center;
   gap: 10px;
 }
+
 .container {
   position: relative;
 }
@@ -1413,6 +1442,7 @@ const deleteUploadedFile = async (index) => {
 .docs__value_datepicker.red-bg {
   background: #ffcbcb;
 }
+
 .docs__value_datepicker.blue-bg {
   background: #aedcff;
 }
@@ -1423,12 +1453,30 @@ const deleteUploadedFile = async (index) => {
   justify-content: flex-start;
   padding-top: 10px;
 }
-.docs__value_datepicker .info span{
+
+.docs__value_datepicker .info span {
   margin-left: 8px;
 }
+
 .docs__value_datepicker .info span a {
   color: blue;
   text-decoration: underline;
 }
 
+.docs__value_datepicker {
+  position: relative;
+}
+
+.docs__value_datepicker .input-error {
+  position: absolute;
+  left: 10px;
+  background: #ffdbdb;
+  top: 61px;
+  width: calc(100% - 40px);
+  text-align: center;
+  padding: 10px;
+  font-size: 14px;
+  z-index: 1;
+  color: #3b45a9;
+}
 </style>

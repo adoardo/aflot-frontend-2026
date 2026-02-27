@@ -36,8 +36,13 @@
                     />
                   </div>
                 </div>
-
-
+                <div class="tag-input">
+                  <AfDropDox
+                      title="Регион"
+                      :single="true"
+                      v-model="vacancyData.region"
+                      :options-list="regionList"/>
+                </div>
                 <div class="input inp-mt10">
                   <label style="margin-bottom: 12px;">Период посадки</label>
                   <UPopover :popper="{ placement: 'bottom-start' }">
@@ -46,9 +51,6 @@
                     </UButton>
 
                     <template #panel="{ close }">
-                        <div class="header-close menu-close-gray close-reg-about" @click.stop="close()">
-                            <span class="header-close__icon"></span>
-                        </div>
                       <div class="flex items-center sm:divide-x divide-gray-200 dark:divide-gray-800">
                         <div class="hidden sm:flex flex-col py-4">
                           <UButton
@@ -73,11 +75,10 @@
                 </div>
                 <div class="input input-date-contract inp-mt10">
                   <AfSelect
-                      label="Период посадки:"
+                      label="Длительность контракта:"
                       v-model="vacancyData.contract_duration"
                       :options-list="getAfContractDuration"
                       :error="v$.contract_duration.$error && v$.contract_duration.required.$invalid"
-                      :close="close"
                   />
                 </div>
               </div>
@@ -92,9 +93,6 @@
             <h2 class="sudno-list-subtitle">Судно:</h2>
             <p>
               Выберите судно из вашего списка «Мои суда», либо из списка «Морского флота»
-            </p>
-            <p>
-              Если ваше судно отсутствует в "Мои суда" или "Морской флот", то добавьте судно в ручную ниже
             </p>
           </div>
           <!-- /.vak-sudno-list -->
@@ -354,7 +352,7 @@
                       Добавить судно в ручную
                     </h3>
                     <!-- /.sudno-info__title -->
-                    <div v-if="formData?.vessel_name && formData?.imo" class="sudno-info__check">
+                    <div v-if="formData.vessel_name && formData.imo" class="sudno-info__check">
                       <img src="assets/img/sudno/green.svg" alt="image" class="sudno-info__icon">
                       <div class="sudno-info__text">
                         Данные заполнены
@@ -496,10 +494,6 @@
 
       <div class="resume-buttons sudno-buttons">
         <button class="primary" @click="send(true)">Сохранить</button>
-        <!-- <button class="secondary" @click="create30Vacancies">
-          Создать 30 вакансий (тест)
-        </button> -->
-
         <button class="secondary" @click="send(false)">Сохранить в черновиках</button>
         <button class="secondary" @click="resetVacancy()">Сбросить</button>
       </div>
@@ -532,7 +526,7 @@ import AfCheckbox from "@/components/uikit/AfCheckbox2";
 import {useGlobalSettings} from "~/store/useGlobalSettings";
 
 const globalSettings = useGlobalSettings();
-const {getAfJobs, getAfShips, getAfContractDuration} = storeToRefs(globalSettings)
+const {getAfJobs, getAfShips, getAfContractDuration, getAfRegionsRussiaVac} = storeToRefs(globalSettings)
 
 import {useUsersStore} from "~/store/useUserStore";
 const userStore = useUsersStore();
@@ -543,6 +537,7 @@ import {required, email, minLength} from "@vuelidate/validators";
 
 const professionalList = ref(getAfJobs);
 const shipList = ref(getAfShips);
+const regionList = ref(getAfRegionsRussiaVac);
 
 const activeTab = ref("tab1");
 
@@ -593,7 +588,8 @@ const vacancyData = ref({
   is_active: true,
   addNewShip: true,
   created_at: Date.now(),
-  view_count: 0
+  view_count: 0,
+  region: ''
 });
 
 const ranges = [
@@ -670,6 +666,7 @@ const unregisteredShipMF = ref([]);
 const unregisteredNamesMF = ref();
 const newShipChecker = ref(false);
 const init = async () => {
+
   try {
     await api.get("/company/profile").then((data) => {
       companyProfile.value = data.data;
@@ -797,121 +794,54 @@ const validateEmail = (email) => {
 
 const sendFinally = async (publishState) => {
   await setVacancyDates();
-
   if (vesselId.value) {
+
     vacancyData.value.vessel = vesselId.value
     let dataToSubmit = prepareDataForSending(vacancyData)
 
     dataToSubmit.position = vacancyData.value.position[0];
+    dataToSubmit.region = vacancyData.value.region[0];
     dataToSubmit.responses = [];
     dataToSubmit.job_offers = [];
     dataToSubmit.append_company = vacancyData.value.addNewShip;
 
-    if (!vacancyData.value.salary_from) dataToSubmit.salary_from = 0;
-    if (!vacancyData.value.salary_to) dataToSubmit.salary_to = 0;
-
-    dataToSubmit.f_i_o = companyProfile.value.f_i_o;
-    dataToSubmit.email = companyProfile.value.email;
-    dataToSubmit.phone1 = companyProfile.value.phone1;
-    dataToSubmit.phone2 = companyProfile.value.phone2;
-
-    // ✅ Apply your new logic
-    if (publishState) {
-      // Simple Save
-      dataToSubmit.is_active = true;
-      dataToSubmit.is_publish = true;
-    } else {
-      // Save as Draft
-      dataToSubmit.is_active = true;
-      dataToSubmit.is_publish = false;
+    if (!vacancyData.value.salary_from) {
+      dataToSubmit.salary_from = 0;
     }
+    if (!vacancyData.value.salary_to) {
+      dataToSubmit.salary_to = 0;
+    }
+    dataToSubmit.f_i_o = companyProfile.value.f_i_o
+    dataToSubmit.email = companyProfile.value.email
+    dataToSubmit.phone1 = companyProfile.value.phone1
+    dataToSubmit.phone2 = companyProfile.value.phone2
+    dataToSubmit.is_active = publishState;
+    dataToSubmit.is_publish = publishState;
 
     if (!validateEmail(dataToSubmit.email)) {
-      dataToSubmit.email = 'hide@hide.com';
+      dataToSubmit.email = 'hide@hide.com'
     }
+
+    openModal('loader')
 
     try {
       await api.post("/all-vacancies/create", dataToSubmit).then((data) => {
         console.log('vacancy new', data);
-        openModal('loader');
-        setTimeout(() => {
-          closeModal('loader');
-          openModal('vacancySuccess');
-        }, 1000);
+        closeModal('loader')
+        openModal('vacancySuccess')
+        //window.location.reload(true)
       });
     } catch (e) {
-      console.log('Error creating vacancy', e);
+      closeModal('loader')
+      console.log(-1)
+      console.log(e);
     }
+    //window.location.reload()
 
   } else {
-    alert('Ошибка при добавлении судна. Пожалуйста, обновите страницу.');
+    alert('Ошибка при добавлении судна. Пожалуйста, обновите страницу.')
   }
-};
-
-// ================================
-// CREATE 30 VACANCIES WITH SHIPS
-// ================================
-const create30Vacancies = async () => {
-  try {
-    // 1. Load all registered ships for this company
-    const shipsResp = await api.get("/navy/registered?email=" + userInfo.value.info.email);
-    const ships = shipsResp.data;
-
-    if (!ships.length) {
-      alert("У вас нет созданных судов. Сначала создайте суда.");
-      return;
-    }
-
-    // 2. Loop and create 30 vacancies
-    for (let i = 0; i < 30; i++) {
-      const ship = ships[i % ships.length]; // rotate through ships
-
-      const vacancy = {
-        position: "Капитан " + (i + 1),
-        salary_from: 500000,
-        salary_to: 700000,
-        date_of_departure: "2025-01-10",
-        date_of_departure_from: "2025-01-10",
-        date_of_departure_to: "2025-12-31",
-        contract_duration: "2 месяца",
-        vessel: ship._id, // 👈 assign ship
-        contact_person: companyProfile.value.f_i_o,
-        email: companyProfile.value.email,
-        phone1: companyProfile.value.phone1,
-        phone2: companyProfile.value.phone2,
-
-        responses: [],
-        job_offers: [],
-        approved_responses: [],
-        approved_offers: [],
-
-        is_publish: true,
-        is_active: true,
-        addNewShip: false,
-
-        created_at: new Date(),
-        view_count: 0
-      };
-
-      try {
-        await api.post("/all-vacancies/create", vacancy);
-        console.log(`Vacancy ${i + 1} created for ship ${ship.vessel_name}`);
-      } catch (e) {
-        console.error(`Error creating vacancy ${i + 1}`, e.response?.data || e);
-      }
-
-      // Delay to avoid server overloading
-      await new Promise((r) => setTimeout(r, 100));
-    }
-
-    alert("30 вакансий успешно созданы!");
-  } catch (err) {
-    console.error(err);
-    alert("Ошибка при создании вакансий");
-  }
-};
-
-
+}
 const send = async (publishState) => {
   v$.value.$touch();
   if (!v$.value.$error) {
@@ -1016,10 +946,5 @@ const resetVacancy = async () => {
   .tag-input {
     width: 100%;
   }
-}
-.close-reg-about{
-  position: relative;
-  right: 5px;
-  top: 5px;
 }
 </style>

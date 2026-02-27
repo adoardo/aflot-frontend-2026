@@ -15,7 +15,7 @@
   </div>
   <div
     :class="['header-overlay', { 'header-overlay__active': isOpen }]"
-    @click="handleCloseVac"
+    @click="handleClose"
   ></div>
 </template>
 

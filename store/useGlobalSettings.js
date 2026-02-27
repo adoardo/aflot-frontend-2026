@@ -8,6 +8,7 @@ export const useGlobalSettings = defineStore('settings', {
             jobs: [],
             ships: [],
             regions_russia: [],
+            regions_russia_vac: [],
             contract_duration: [],
             sailorTariffs: [],
             companyTariffs: [],
@@ -60,8 +61,8 @@ export const useGlobalSettings = defineStore('settings', {
             const response = await api.get("/regions");
             console.log(response.data.data, "regionsrussia");
             this.settings.regions_russia = response.data.data;
+            this.settings.regions_russia_vac = response.data.data[0].option_values;
         },
-
         async setCurrentShip(data) {
             this.currentShip = data
         },
@@ -85,6 +86,7 @@ export const useGlobalSettings = defineStore('settings', {
         getAfCompanyTariffs: (state) => state.settings.companyTariffs,
         getAfNotification: (state) => state.settings.afNotification,
         getAfRegionsRussia: (state) => state.settings.regions_russia,
+        getAfRegionsRussiaVac: (state) => state.settings.regions_russia_vac,
     }
 
 

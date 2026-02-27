@@ -79,8 +79,17 @@ Check out the [deployment documentation](https://nuxt.com/docs/getting-started/d
 # если на сервере он не установлен  
 npm install -g pm2 
 
+
+.env - не забыть про порт
 # Запуск
 pm2 start "npm run dev" --name nuxt-dev
+pm2 start "npm run dev" --name nuxt-dev2
+pm2 start ecosystem.config.cjs
+
+pm2 list
+om2 kill
+pm stop <id>
+pm delete <id>
 
 # Остановка
 pm2 stop nuxt-dev
