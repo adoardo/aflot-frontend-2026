@@ -36,12 +36,9 @@ const { closeModal } = useModalStore();
 const handleClose = () => {
   closeModal("vacancySuccess");
   emit("close");
-  window.location.reload();
+  window.location.href="/company/vacansies?tab=0"
 };
 const handleCloseVac = () => {
-  // closeModal("vacancySuccess");
-  // emit("close");
-  // window.location.reload();
   window.location.href = '/resumes'
 };
 </script>

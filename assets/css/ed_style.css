@@ -375,6 +375,10 @@ button , input{
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    text-align: center;
+    margin-top: 40px;
+    font-size: 18px;
+    color: #888;
 }
 .no-results span {
     font-weight: 600;
@@ -383,6 +387,8 @@ button , input{
 .no-results img {
     height: 300px;
     width: auto;
+    opacity: 0.7;
+    margin-top: 20px;
 }
 .menu-lk-link.submenu {
     padding-left: 55px;
@@ -393,7 +399,7 @@ button , input{
 
 .af-loader {
     height: 100vh;
-    z-index: 60;
+    z-index: 1000;
     transition: .3s;
     background-color: #fff;
     display: flex;

@@ -72,7 +72,7 @@
                         <div class="tarif-off-blue">Из них, вы приняли:</div>
                         <div class="about-info__title">
                           {{ globalAll.responses_accepted }}
-                          <span class="about-info__plus">моряков</span>
+                          <span class="about-info__plus">откликов моряков</span>
                         </div>
                       </div>
                     </div>
@@ -126,7 +126,7 @@
                         <div class="tarif-off-blue">Итого принято:</div>
                         <div class="about-info__title">
                           {{ globalMonth.total_accepted }}
-                          <span class="about-info__plus">моряков</span>
+                          <span class="about-info__plus">откликов моряков</span>
                         </div>
                       </div>
                     </div>

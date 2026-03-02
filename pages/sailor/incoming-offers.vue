@@ -95,7 +95,7 @@
                 </div>
                 <div class="vacancy__button" @click="cancelVacancyOffer(item.mailing_id , item.id , item.company_id  , item.position),item.company_id">
                   <img src="assets/img/responses/cancel.png" alt="" />
-                  Отменить
+                  Отклонить
                 </div>
               </div>
 
@@ -123,8 +123,9 @@ definePageMeta({
 
 const vacancies = ref([]);
 const fetchedData = ref({});
-const sailorid = ref('');
-const deletingId = ref("");
+
+import { useModalStore } from "~/store/modal";
+const { openModal, closeModal } = useModalStore();
 
 // === Fetch vacancies ===
 const fetchVacancies = async () => {
@@ -211,6 +212,7 @@ const sendTelegramMessage = async (companyEmail, companyName, vacancyId, positio
 
 // === Send response logic ===
 const sendResponse = async (mailing_id, vacancyId, company_id, position, responseType) => {
+  openModal('loader')
   try {
     const userData = JSON.parse(localStorage.getItem("global/user") || '{}');
     const sailorResumeId = userData?.userProfileId?.resumeID;
@@ -269,15 +271,17 @@ const sendResponse = async (mailing_id, vacancyId, company_id, position, respons
     }
 
     console.log(`✅ Offer ${responseType}`);
-    window.location.href = "/";
+    window.location.href = "/sailor/incoming-offers";
   } catch (err) {
     console.error("❌ Error sending response:", err);
   }
+
 };
 
 // === Accept / Reject buttons ===
 const acceptVacancyOffer = async (mailing_id, vacancyId, company_id, position) => {
   console.log(1)
+  openModal('loader')
   await sendResponse(mailing_id, vacancyId, company_id, position, "accepted");
   console.log(2)
   window.location.href = '/vacancy/' + vacancyId;
@@ -297,16 +301,4 @@ const cancelVacancyOffer = async (mailing_id, vacancyId, company_id, position) =
   gap: 20px;
 }
 
-.no-results {
-  text-align: center;
-  margin-top: 40px;
-  font-size: 18px;
-  color: #888;
-
-  .dock-img {
-    width: 160px;
-    opacity: 0.7;
-    margin-top: 20px;
-  }
-}
 </style>

@@ -31,7 +31,7 @@ export const MenuCompany = ref([
   { type: 'mainmenu', name: 'Рассылка', link: '/company/mailings/create-newsletter', icon: 'lk-about-3.svg'},
   { type: 'submenu', name: 'Создание рассылки', link: '/company/mailings/vacancies', icon: 'lk-about-3.svg'},
   { type: 'submenu', name: 'Общие результаты ', link: '/company/mailings/mailing-results', icon: 'lk-about-3.svg'},
-  { type: 'submenu', name: 'Результаты конкретной рассылки ', link: '/company/mailings/specific-newsletter', icon: 'lk-about-3.svg'},
+  // { type: 'submenu', name: 'Результаты конкретной рассылки ', link: '/company/mailings/specific-newsletter', icon: 'lk-about-3.svg'},
 
   { name: 'Принятые моряки', link: '/company/accepted-sailors', icon: 'lk-about-13.svg'},
   { type: 'mainmenu', name: 'Входящие отклики', link: '/company/incoming-responses', icon: 'lk-about-13.svg'},

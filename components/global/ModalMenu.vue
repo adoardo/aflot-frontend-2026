@@ -29,7 +29,7 @@
       </div>
 
       <div class="header-menu__dop">
-        <div class="header-menu__copy">2024, «Афлот» - Все права защищены</div>
+        <div class="header-menu__copy">{{currentDate.getFullYear()}}, «Афлот» - Все права защищены</div>
         <div class="header-menu__social">
           <div class="header-menu__doptext">Мы в соц. сетях:</div>
           <div class="header-menu__icons">
@@ -52,6 +52,8 @@ import { menu, MenuSea } from "~/consts/MenuConsts";
 import watchScrollModal from "~/utils/watchScrollModal";
 import api from "@/api/api";
 const { closeModal,openModal } = useModalStore();
+
+const currentDate = new Date
 
 const props = defineProps({
   isOpen: {

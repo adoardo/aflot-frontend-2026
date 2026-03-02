@@ -626,7 +626,9 @@ const sendMailing = async () => {
     const vacancy_id = vacancyId.value;
     const usersInfo = userData?.user?.info;
 
+    //В первую очередь проверяем можем ли предложить и высылаем предложения
     await Promise.all([
+      api.post("/mailing-sailors-create-offers", { ids, company_email, vacancy_id }),
       api.post("/mailing-sailors", { ids, company_email, vacancy_id }),
       api.post("/mailing-history/create", { company_email, sailor_ids: ids, vacancy_id }),
       sendWebSocketOffers(ids, userData, usersInfo),
@@ -635,6 +637,9 @@ const sendMailing = async () => {
 
     selectedIds.value.clear();
     openMailingModal("success", "Спасибо!", `Рассылка успешно отправлена ${ids.length} морякам!`);
+
+    //Обновляем кол-во возможных предложений
+    userStore.getCompanyData();
   } catch (err) {
     openMailingModal("error", "Ошибка!", "Не удалось отправить рассылку. Попробуйте ещё раз.");
   } finally {

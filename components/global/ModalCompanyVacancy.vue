@@ -62,8 +62,7 @@ const vacs = ref([]);
 const selectedVac = ref(false);
 const selectedVacName = ref(false);
 
-const { modals } = useModalStoreRefs();
-const { closeModal } = useModalStore();
+const { openModal, closeModal } = useModalStore();
 const userStore = useUsersStore();
 const { userInfo } = storeToRefs(userStore);
 
@@ -86,10 +85,10 @@ watch(
 ================================ */
 const fetchVacs = async () => {
   try {
-    const companyId = JSON.parse(localStorage.getItem("global/user") || '{}')
-      ?.userProfileId?.id;
+    //const companyId = JSON.parse(localStorage.getItem("global/user") || '{}')?.userProfileId?.id;
 
-    const { data } = await api.get("/all-vacancies-company-available/" + companyId);
+    //const { data } = await api.get("/all-vacancies-company-available/" + companyId);
+    const { data } = await api.get("/all-vacancies-company-available/" + props.sailorId);
 
     fetchedData.value = data;
     vacs.value = data?.vacancies || [];
@@ -176,6 +175,7 @@ console.log('AAA TRY')
    MAIN FLOW: SEND OFFER
 ================================ */
 const sendOffer = async () => {
+  openModal('loader')
   // 1️⃣ Determine selected vacancy name
   for (let i = 0; i < vacs.value.length; i++) {
     if (selectedVac.value === vacs.value[i]._id) {
@@ -247,6 +247,7 @@ const sendOffer = async () => {
   // 9️⃣ Refresh UI + close modal
   fetchVacs();
   closeModal("companyvac");
+  closeModal('loader')
 };
 </script>
 
