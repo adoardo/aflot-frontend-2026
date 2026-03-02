@@ -26,7 +26,10 @@
 
           <!-- EMPTY -->
           <div v-else-if="!vacanciesWithSailors.length" class="not-allowed-sailor text-center py-5">
-            Нет одобренных моряков по вашим вакансиям.
+            <div class="no-results">
+              <span>Нет одобренных моряков по вашим вакансиям.</span>
+              <img src="assets/img/ship-drawing.svg" alt="image" class="dock-img" />
+            </div>
           </div>
 
           <!-- MAIN LIST -->
@@ -64,8 +67,16 @@
 
                 >
                   <div class="vacancy-top-off">
-                    <div class="vacancy__logo">
-                      <img src="assets/img/search/man.png" alt="logo" />
+                    <div v-if="sailor.photo_path" class="vacancy__logo">
+                      <img :src="sailor.photo_path" alt="logo" />
+                    </div>
+                    <div v-else class="vacancy__logo vacancy__logo_empty">
+                      <div class="ed-lk-fn-ln">
+                        {{ sailor.last_name.substring(0, 1).toUpperCase() }}
+                        {{ sailor.first_name.substring(0, 1).toUpperCase() }}
+                      </div>
+                      <img src="assets/img/header/logo-white.png" alt="logo" />
+                      <text>⚓</text>
                     </div>
 
                     <div class="vacancy-content-off">
@@ -169,6 +180,10 @@ const vacanciesWithSailors = ref([])
 const loading = ref(false)
 const error = ref(null)
 
+import { useModalStore } from "~/store/modal";
+const modalStore = useModalStore();
+const { openModal, closeModal } = modalStore;
+
 const resolveCompanyId = async () => {
   if (!usersStore.userdata || (!usersStore.userdata.id && !usersStore.userdata._id)) {
     try { await usersStore.getCompanyData() } catch {}
@@ -251,6 +266,7 @@ const gotoSailor = (sailor_id) => {
 };
 
 const deleteSailor = async (sailor_id, vacancy_id) => {
+  openModal('loader')
   try {
     await api.post(`/company-vacancy-incoming-response/${vacancy_id}/cancel/${sailor_id}`);
     fetchApprovedUsers()
@@ -258,6 +274,7 @@ const deleteSailor = async (sailor_id, vacancy_id) => {
     console.error(e);
     throw e;
   }
+  closeModal('loader')
 };
 
 onMounted(() => {

@@ -156,11 +156,11 @@ const sendResponse = async (vacancyId, sailorId, vacancyname) => {
       });
     }
     emit("refresh");
-    window.location.href = "/accepted-sailors";
+    window.location.href = "/company/accepted-sailors";
   } catch (e) {
     console.log("❌ Accept error:", e);
   }
-  closeModal('loader')
+
 };
 
 const cancelResponse = async (vacancyId, sailorId, vacancyname) => {

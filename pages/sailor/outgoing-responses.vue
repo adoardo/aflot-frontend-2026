@@ -15,7 +15,7 @@
 
                 
 
-                <div class="vacancy-list">
+                <div class="vacancy-list" v-if="vacancies.length">
 
                   <div v-for="(item, i) in vacancies" :key="'vacancies-item-' + i" class="vacancy vacancy-item-off">
                     <div class="vacancy__label-top">
@@ -68,6 +68,11 @@
                     <div class="vacancy__date">{{item.vacancyDate}}</div>
                   </div>
 
+                </div>
+
+                <div v-else class="no-results">
+                  <span>Исходящих откликов не найдено</span>
+                  <img src="assets/img/ship-drawing.svg" alt="image" class="dock-img" />
                 </div>
             </div>
         </section>

@@ -498,3 +498,6 @@ button , input{
 .vacancy__meta > div:not(.vacancy__info):nth-child(2) {
     width: 40%;
 }
+.notif-z-index {
+    z-index: 1;
+}

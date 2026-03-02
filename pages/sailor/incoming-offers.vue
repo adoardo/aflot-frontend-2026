@@ -281,7 +281,6 @@ const sendResponse = async (mailing_id, vacancyId, company_id, position, respons
 // === Accept / Reject buttons ===
 const acceptVacancyOffer = async (mailing_id, vacancyId, company_id, position) => {
   console.log(1)
-  openModal('loader')
   await sendResponse(mailing_id, vacancyId, company_id, position, "accepted");
   console.log(2)
   window.location.href = '/vacancy/' + vacancyId;

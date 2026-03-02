@@ -1,5 +1,5 @@
 <template>
-  <div ref="dropdownRef">
+  <div class="notif-z-index" ref="dropdownRef">
   <p v-if="data.length === 0" class="text-gray-500 text-center">
     <div
       class="header-close menu-close-gray close-reg-about"

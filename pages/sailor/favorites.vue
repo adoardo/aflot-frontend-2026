@@ -27,22 +27,30 @@
                       </div>
 
                       <div class="tab-body" v-show="activeTab === 'vacancies'">
-                          <div class="vacancy-list vacancy-list-three">
+                          <div class="vacancy-list vacancy-list-three" v-if="vacancies.length">
                               <VacancyFavoriteItem
                                   v-for="(item, i) in vacancies"
                                   :data="item"
                                   :key="'vacancies-item-' + i"
                               />
                           </div>
+                        <div v-else class="no-results">
+                          <span>Список избранных вакансий пуст</span>
+                          <img src="assets/img/ship-drawing.svg" alt="image" class="dock-img" />
+                        </div>
                       </div>
 
                       <div class="tab-body" v-show="activeTab === 'companies'">
-                          <div class="company-list">
-                          <CompanyFavoriteItem
-                              v-for="(item, i) in companies"
-                              :data="item"
-                              :key="'company-item-' + i"
-                          />
+                          <div class="company-list" v-if="companies.length">
+                            <CompanyFavoriteItem
+                                v-for="(item, i) in companies"
+                                :data="item"
+                                :key="'company-item-' + i"
+                            />
+                          </div>
+                          <div v-else class="no-results">
+                            <span>Список избранных компаний пуст</span>
+                            <img src="assets/img/ship-drawing.svg" alt="image" class="dock-img" />
                           </div>
                       </div>
                   </div>

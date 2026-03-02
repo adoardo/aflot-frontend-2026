@@ -7,11 +7,11 @@
                     <div class="container">
                         <div class="hero-block hero-block-mal">
                             <div class="vabout-top-block">
-                                <a href="#" class="vabout-cursor">
+                                <a href="/mailing-results" class="vabout-cursor">
                                     ←
                                 </a>
                                 <div class="vabout-pag">
-                                    <a href="../index.html" class="vabout-pag-link">Ко всем результатам рассылок</a>
+                                    <a href="/mailing-results" class="vabout-pag-link">Ко всем результатам рассылок</a>
                                 </div>
                             </div>
                             <h1 class="hero-title">

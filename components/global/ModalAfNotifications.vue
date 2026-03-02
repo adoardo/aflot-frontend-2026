@@ -11,7 +11,7 @@
 </template>
 <script setup>
 
-import watchScrollModal from "~/utils/watchScrollModal";
+//import watchScrollModal from "~/utils/watchScrollModal";
 
 
 const props = defineProps({
@@ -30,7 +30,7 @@ const props = defineProps({
   }
 });
 
-watch(() => props.isOpen, watchScrollModal)
+//watch(() => props.isOpen, watchScrollModal)
 
 </script>
 

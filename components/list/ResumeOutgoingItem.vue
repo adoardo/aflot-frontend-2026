@@ -84,7 +84,12 @@ const props = defineProps({
 });
 const afDate = ref(convertAFDate(props.data.created_at, true));
 
+import { useModalStore } from "~/store/modal";
+const modalStore = useModalStore();
+const { openModal, closeModal } = modalStore;
+
 const cancelOffer = async (vacancyId, sailorId) => {
+  openModal('loader')
   try {
     await api.post("/all-vacancies/"+ vacancyId +"/offer_cancel/" + sailorId).then((res) => {
       window.location.reload();
