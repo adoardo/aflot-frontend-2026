@@ -15,7 +15,7 @@
                                 </div>
                             </div>
                             <h1 class="hero-title">
-                                Результаты рассылки от {{ mailing?.mailing_date || "-" }}
+                                Результаты рассылки от {{ formattedDate || "-" }}
                             </h1>
                             <div class="hero-title-date">
                                 {{ mailing?.vacancy_title || "Без названия" }}
@@ -237,6 +237,22 @@ import { useRoute } from "vue-router"
 import api from "@/api/api"
 import { ref, onMounted, nextTick, defineComponent, computed, h } from "vue"
 
+const mon = ref([
+  'января',
+  'февраля',
+  'марта',
+  'апреля',
+  'мая',
+  'июня',
+  'июля',
+  'августа',
+  'сентября',
+  'октября',
+  'ноября',
+  'декабря',
+])
+const formattedDate = ref('');
+
 // ✅ normalize: array | string | object -> string[]
 const normalizeToArray = (v) => {
     if (!v) return []
@@ -320,6 +336,11 @@ async function fetchMailingDetails() {
         mailing.value = data
         console.log(data)
         console.log("data")
+
+        let tmp = mailing.value.mailing_date
+        tmp = tmp.split('-')
+        let month = mon.value[tmp[1] - 1].toUpperCase();
+        formattedDate.value = parseInt(tmp[2]) + ' ' + month + ' ' + tmp[0]
 
         acceptedList.value = data.sailors.filter(s => s.response === "accepted")
         rejectedList.value = data.sailors.filter(s => s.response === "rejected")
