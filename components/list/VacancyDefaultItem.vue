@@ -5,24 +5,24 @@
         <text>{{ data.position }}</text>
 
         <img
-          v-if="!isFavorite"
-          class="fav_icon added_fav_icon"
-          src="assets/img/mor/icon-2.png"
-          alt="add to favorite"
-          @click="toggleFavoriteVacancy()"
+            v-if="!isFavorite"
+            class="fav_icon added_fav_icon"
+            src="assets/img/mor/icon-2.png"
+            alt="add to favorite"
+            @click="toggleFavoriteVacancy()"
         />
 
         <img
-          v-else
-          class="fav_icon removed_fav_icon"
-          src="assets/img/mor/icon-1.png"
-          alt="remove from favorite"
-          @click="toggleFavoriteVacancy()"
+            v-else
+            class="fav_icon removed_fav_icon"
+            src="assets/img/mor/icon-1.png"
+            alt="remove from favorite"
+            @click="toggleFavoriteVacancy()"
         />
       </div>
 
       <div v-if="data.photo_path" class="vacancy__logo">
-        <img :src="data.photo_path" alt="logo" />
+        <img :src="data.photo_path" alt="logo"/>
       </div>
       <div v-else class="vacancy__logo vacancy__logo_empty no-fio">
         <div class="ed-lk-fn-ln"></div>
@@ -69,26 +69,26 @@
 
     <div class="vacancy__buttons">
       <div class="vacancy__button blue" @click="goVacancyInfo()">
-        <img src="assets/img/dop-page/blue-info.svg" alt="" />Подробнее
+        <img src="assets/img/dop-page/blue-info.svg" alt=""/>Подробнее
       </div>
 
       <div
-        v-if="isAuth && !hasResponded && userInfo?.info?.role === 'Моряк'"
-        class="vacancy__button red"
-        @click="sendResponse()"
+          v-if="isAuth && !hasResponded && userInfo?.info?.role === 'Моряк'"
+          class="vacancy__button red"
+          @click="sendResponse()"
       >
-        <img src="assets/img/search/link.png" alt="" />Отправить отклик
+        <img src="assets/img/search/link.png" alt=""/>Отправить отклик
       </div>
 
       <div
-        v-else-if="isAuth && hasResponded && userInfo?.info?.role === 'Моряк'"
-        class="vacancy__button vacancy_disabled_button"
+          v-else-if="isAuth && hasResponded && userInfo?.info?.role === 'Моряк'"
+          class="vacancy__button vacancy_disabled_button"
       >
-        <img src="assets/img/mor/icon-3.png" alt="icon" />Отклик отправлен
+        <img src="assets/img/mor/icon-3.png" alt="icon"/>Отклик отправлен
       </div>
 
       <div v-else-if="!isAuth" class="vacancy__button red" @click="toggleModal('lk')">
-        <img src="assets/img/search/link.png" alt="" />Авторизуйтесь
+        <img src="assets/img/search/link.png" alt=""/>Авторизуйтесь
       </div>
     </div>
 
@@ -97,24 +97,24 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from "vue";
-import { storeToRefs } from "pinia";
+import {ref, onMounted, computed} from "vue";
+import {storeToRefs} from "pinia";
 import api from "@/api/api";
 import convertAFDate from "@/utils/convertAFDate.js";
-import { useUsersStore } from "~/store/useUserStore";
-import { useModalStore } from "~/store/modal";
+import {useUsersStore} from "~/store/useUserStore";
+import {useModalStore} from "~/store/modal";
 
 const props = defineProps({
-  data: { type: Object, required: true },
+  data: {type: Object, required: true},
 });
 
 const emit = defineEmits(["respond-sent"]);
 
 const userStore = useUsersStore();
-const { userInfo, isAuth, userProfileId } = storeToRefs(userStore);
+const {userInfo, isAuth, userProfileId} = storeToRefs(userStore);
 
 const modalStore = useModalStore();
-const { openModalAfNotifications, toggleModal, closeModal } = modalStore;
+const {openModalAfNotifications, toggleModal, closeModal} = modalStore;
 
 const afDate = ref(convertAFDate(props.data.created_at, true));
 const isFavorite = ref(false);
@@ -150,7 +150,8 @@ const checkFavoriteStatus = async () => {
     const resp = await api.get("/resume-full");
     const favorites = (resp.data?.favorite_vacancies ?? []).map(String);
     isFavorite.value = favorites.includes(getVacancyId());
-  } catch (e) {}
+  } catch (e) {
+  }
 };
 
 const addFavoriteVacancy = async () => {
@@ -186,52 +187,57 @@ const toggleFavoriteVacancy = async () => {
 };
 
 const sendResponse = async () => {
-  if (!isAuth.value) return toggleModal("lk");
+      if (!isAuth.value) return toggleModal("lk");
 
-  const vacancyId = getVacancyId();
-  const position = props.data.position;
-  const resumeId = getResumeId();
+      const vacancyId = getVacancyId();
+      const position = props.data.position;
+      const resumeId = getResumeId();
 
-  openModalAfNotifications("Вы оставили отклик на вакансию:", position);
+      openModalAfNotifications("Вы оставили отклик на вакансию:", position);
 
-  try {
-    await api.post(`/all-vacancies/${vacancyId}/respond`);
-    justResponded.value = true;
+      try {
+        await api.post(`/all-vacancies/${vacancyId}/respond`);
+        justResponded.value = true;
 
-    if (props.data.email) {
-      await api.post("/telegram_message", {
-        email: props.data.email,
-        type: "respond",
-        vacancy_name: position,
-        company_name: props.data.company_name,
-        vacancy_id: vacancyId,
-        fio: `${userInfo.value?.info?.last_name || ""} ${userInfo.value?.info?.first_name || ""}`.trim(),
-        resumeId,
-      });
+        if (props.data.email) {
+          await api.post("/telegram_message", {
+            email: props.data.email,
+            type: "respond",
+            vacancy_name: position,
+            company_name: props.data.company_name,
+            vacancy_id: vacancyId,
+            fio: `${userInfo.value?.info?.last_name || ""} ${userInfo.value?.info?.first_name || ""}`.trim(),
+            resumeId,
+          });
+        }
+
+        if (WebSocketService.instance) {
+          //const WS = (globalThis && globalThis.WebSocketService) ? globalThis.WebSocketService : undefined;
+          //console.log(WS);
+          WebSocketService.instance.sendMessage({
+            type: "notify",
+            receiver_id: props.data.company_id,
+            receiver_role: "Компания",
+            message: {
+              sender_id: userInfo.value?.info?.id,
+              resume_id: resumeId,
+              vacancy_id: vacancyId,
+              vacancy_name: position,
+              type: "respond",
+            },
+          });
+        }
+
+        emit("respond-sent");
+        setTimeout(() => closeModal("afnotifications"), 5000);
+      } catch
+          (e) {
+        closeModal("afnotifications");
+        openModalAfNotifications("Ошибка при отправке отклика", "");
+        setTimeout(() => closeModal("afnotifications"), 4000);
+      }
     }
-
-    const WS = (globalThis && globalThis.WebSocketService) ? globalThis.WebSocketService : undefined;
-    WS?.instance?.sendMessage?.({
-      type: "notify",
-      receiver_id: props.data.company_id,
-      receiver_role: "Компания",
-      message: {
-        sender_id: userInfo.value?.info?.id,
-        resume_id: resumeId,
-        vacancy_id: vacancyId,
-        vacancy_name: position,
-        type: "respond",
-      },
-    });
-
-    emit("respond-sent");
-    setTimeout(() => closeModal("afnotifications"), 5000);
-  } catch (e) {
-    closeModal("afnotifications");
-    openModalAfNotifications("Ошибка при отправке отклика", "");
-    setTimeout(() => closeModal("afnotifications"), 4000);
-  }
-};
+;
 
 const goVacancyInfo = () => {
   window.location.href = "/vacancy/" + getVacancyId();
@@ -281,16 +287,19 @@ onMounted(() => {
 .vak-dop-link:hover span {
   border-bottom: 1px solid #fff;
 }
+
 .vacancy__logo_empty.no-fio {
   position: relative;
   opacity: .8;
 }
+
 .vacancy__logo_empty.no-fio .ed-lk-fn-ln {
   width: 63px;
   height: 63px;
   background: transparent;
-  border:1px solid #3b45a9;
+  border: 1px solid #3b45a9;
 }
+
 .vacancy__logo_empty.no-fio text {
   bottom: 18px;
   left: calc(50% - 13px);
