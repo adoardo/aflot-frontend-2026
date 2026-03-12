@@ -100,8 +100,9 @@
                     </div>
                   </div>
 
-                  <div v-if="!hasAnyAll" style="padding: 10px;">
-                    Нет данных
+                  <div v-if="!hasAnyAll" class="no-results">
+                    <span>Нет данных рассылок.</span>
+                    <img src="assets/img/ship-drawing.svg" alt="image" class="dock-img" />
                   </div>
                 </div>
               </div>
@@ -190,8 +191,9 @@
                     </div>
                   </div>
 
-                  <div v-if="!hasAnyMonth" style="padding: 10px;">
-                    Нет данных
+                  <div v-if="!hasAnyMonth" class="no-results">
+                    <span>Нет данных рассылок.</span>
+                    <img src="assets/img/ship-drawing.svg" alt="image" class="dock-img" />
                   </div>
                 </div>
               </div>

@@ -9,14 +9,13 @@
               <div class="vabout-top-block">
                 <a href="#" class="vabout-cursor"> ← </a>
                 <div class="vabout-pag">
-                  <a href="#" class="vabout-pag-link">
-                    Результаты рассылок по вакансии:
+                  <a href="/" class="vabout-pag-link">
+                    На главную
                   </a>
                 </div>
               </div>
 
-              <h1 class="hero-title">Старший помощник капитана</h1>
-              <div class="hero-title-date">от {{ currentDate }}</div>
+              <h1 class="hero-title">Результаты рассылок:</h1>
             </div>
           </div>
         </div>
@@ -129,8 +128,9 @@
               </table>
             </div>
 
-            <div v-else class="mal-empty">
-              <p>Нет данных рассылок</p>
+            <div v-else class="no-results">
+              <span>Нет данных рассылок.</span>
+              <img src="assets/img/ship-drawing.svg" alt="image" class="dock-img" />
             </div>
           </div>
         </div>
@@ -186,6 +186,8 @@ async function fetchMailings() {
     });
 
     mailings.value = Array.isArray(data) ? data : [];
+
+    mailings.value.reverse();
 
     sentCount.value = mailings.value.reduce((s, m) => s + (m.sent || 0), 0);
     acceptedCount.value = mailings.value.reduce(

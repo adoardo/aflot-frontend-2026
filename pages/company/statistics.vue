@@ -72,7 +72,7 @@
                         <div class="tarif-off-blue">Из них, вы приняли:</div>
                         <div class="about-info__title">
                           {{ globalAll.responses_accepted }}
-                          <span class="about-info__plus">откликов моряков</span>
+                          <span class="about-info__plus">моряков</span>
                         </div>
                       </div>
                     </div>
@@ -126,7 +126,7 @@
                         <div class="tarif-off-blue">Итого принято:</div>
                         <div class="about-info__title">
                           {{ globalMonth.total_accepted }}
-                          <span class="about-info__plus">откликов моряков</span>
+                          <span class="about-info__plus">моряков</span>
                         </div>
                       </div>
                     </div>
@@ -451,8 +451,8 @@ const hasAnyGlobalMonth = computed(() => {
 const vacAll = computed(() => stats.value?.vacancies?.all_time ?? [])
 const vacMonth = computed(() => stats.value?.vacancies?.last_month ?? [])
 
-const vacAllVisible = computed(() => (vacAll.value || []).slice(0, shownAll.value))
-const vacMonthVisible = computed(() => (vacMonth.value || []).slice(0, shownMonth.value))
+const vacAllVisible = computed(() => (vacAll.value.reverse() || []).slice(0, shownAll.value))
+const vacMonthVisible = computed(() => (vacMonth.value.reverse() || []).slice(0, shownMonth.value))
 
 const loadMore = (type) => {
   if (type === "all") shownAll.value = Math.min(shownAll.value + perPage.value, vacAll.value.length)
