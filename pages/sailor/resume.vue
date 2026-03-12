@@ -10,7 +10,7 @@
             <div class="tab-header">
               <a
                   href="#resumes"
-                  class="tab-label"
+                  class="tab-label"я
                   @click="activeTab = 'resumes'"
                   :class="{ active: activeTab === 'resumes' }"
               >
@@ -244,7 +244,7 @@
 
                   <div v-if="!passportDateValidate && formData.main_documents.foreign_passport" class="info">
                     <img src="assets/img/resume/alert.svg" alt=""/>
-                    <span>Срок действия истек! Заменить можно <a target="_blank" href="#">здесь</a></span>
+                    <span>Срок действия истек! Заменить можно <a target="_blank" href="/flot-dock">здесь</a></span>
                   </div>
 
                   <div
@@ -396,7 +396,7 @@
                     </VueDatePicker>
                     <div v-if="!gmssbDateValidate && formData.shipwrights_papers.gmssb" class="info">
                       <img src="assets/img/resume/alert.svg" alt=""/>
-                      <span>Срок действия истек! Заменить можно <a target="_blank" href="#">здесь</a></span>
+                      <span>Срок действия истек! Заменить можно <a target="_blank" href="/flot-dock">здесь</a></span>
                     </div>
                   </div>
 
@@ -417,7 +417,7 @@
                     </VueDatePicker>
                     <div v-if="!rltDateValidate && formData.shipwrights_papers.rlt" class="info">
                       <img src="assets/img/resume/alert.svg" alt=""/>
-                      <span>Срок действия истек! Заменить можно <a target="_blank" href="#">здесь</a></span>
+                      <span>Срок действия истек! Заменить можно <a target="_blank" href="/flot-dock">здесь</a></span>
                     </div>
                   </div>
 
@@ -454,7 +454,7 @@
                         v-if="!isolation_breathing_apparatusDateValidate && formData.additional_documents.isolation_breathing_apparatus"
                         class="info">
                       <img src="assets/img/resume/alert.svg" alt=""/>
-                      <span>Срок действия истек! Заменить можно <a target="_blank" href="#">здесь</a></span>
+                      <span>Срок действия истек! Заменить можно <a target="_blank" href="/flot-dock">здесь</a></span>
                     </div>
                   </div>
 
@@ -478,7 +478,7 @@
                         v-if="!transportation_safetyDateValidate && formData.additional_documents.transportation_safety"
                         class="info">
                       <img src="assets/img/resume/alert.svg" alt=""/>
-                      <span>Срок действия истек! Заменить можно <a target="_blank" href="#">здесь</a></span>
+                      <span>Срок действия истек! Заменить можно <a target="_blank" href="/flot-dock">здесь</a></span>
                     </div>
                   </div>
 
@@ -1079,6 +1079,8 @@ handleChangeTransportationSafety();
 
 const saveResume = async () => {
   const dataToSubmit = prepareDataForSending();
+
+  dataToSubmit.working_experience_new.sort((a, b) => new Date(a.period_of_work_from) - new Date(b.period_of_work_from));
 
   await Promise.all(
       FILE_KEYS.map(async (fileKey) => {
