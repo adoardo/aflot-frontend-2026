@@ -199,7 +199,7 @@ const sendOffer = async () => {
   }
 
   // 3️⃣ Create relation
-  await api.post(`/vacancy-offer/${selectedVac.value}/add/${props.sailorId}`);
+  await api.post('/vacancy-offer/' + selectedVac.value + '/add/' + props.sailorId);
 
   try {
     const userData = JSON.parse(localStorage.getItem("global/user") || "{}");

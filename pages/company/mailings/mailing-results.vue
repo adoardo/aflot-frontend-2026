@@ -90,7 +90,7 @@
                       <div class="mal-end-title">Принято</div>
                       <div class="mal-end-cont">
                         <div class="mal-end-num">{{ acceptedCount }}</div>
-                        <div class="mal-end-text">моряков</div>
+                        <div class="mal-end-text">предложений</div>
                       </div>
                     </div>
                   </td>
@@ -107,10 +107,10 @@
 
                   <td class="his-td">
                     <div class="mal-end">
-                      <div class="mal-end-title">Отклонило</div>
+                      <div class="mal-end-title">Отклонено</div>
                       <div class="mal-end-cont">
                         <div class="mal-end-num">{{ rejectedCount }}</div>
-                        <div class="mal-end-text">моряков</div>
+                        <div class="mal-end-text">предложений</div>
                       </div>
                     </div>
                   </td>
@@ -120,7 +120,7 @@
                       <div class="mal-end-title">Не определились</div>
                       <div class="mal-end-cont">
                         <div class="mal-end-num">{{ undecidedCount }}</div>
-                        <div class="mal-end-text">моряков</div>
+                        <div class="mal-end-text">предложений</div>
                       </div>
                     </div>
                   </td>

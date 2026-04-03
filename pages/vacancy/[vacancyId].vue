@@ -107,7 +107,7 @@
                 <h2 class="vabout-h2">Контантая информация:</h2>
                 <div v-if="!showContacts" class="vabout-red">
                   <img src="assets/img/vabout/red.svg" alt="image">
-                  <div>Данная информация станет доступна только после отправки и принятия отклика.</div>
+                  <div>Данная информация станет доступна только после отправки и принятия отклика или предложения.</div>
                 </div>
 
                 <div v-if="!showContacts" class="vabout-info">

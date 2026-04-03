@@ -222,6 +222,7 @@ const sendResponse = async (mailing_id, vacancyId, company_id, position, respons
       mailing_id,
       sailor_id: sailorResumeId,
       vacancy_id: vacancyId,
+      company_id: '',
       response: responseType,
     };
 
@@ -232,7 +233,8 @@ const sendResponse = async (mailing_id, vacancyId, company_id, position, respons
 
     // 1️⃣ Send response update to backend
     await api.post("/mailing/response", payload);
-    await api.post(`/vacancy-offer/${vacancyId}/add/${sailorResumeId}`);
+    //await api.post(`/vacancy-offer/${vacancyId}/add/${sailorResumeId}`);
+    await api.post(`/vacancy-offer/${vacancyId}/accept/${company_id}`);
 
     // 2️⃣ Delete previous notification
     await api.delete(`/notifications/${sailorUserId}`, {

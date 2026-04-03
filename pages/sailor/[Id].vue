@@ -130,7 +130,7 @@
                     <div class="docs__label">Заграничный паспорт</div>
                     <div class="docs__value">
                       <div v-if="resume.main_documents.foreign_passport" class="date">
-                        {{ resume.main_documents.foreign_passport }}
+                        {{ formatDate(resume.main_documents.foreign_passport) }}
                       </div>
                       <div v-else class="date">не указан</div>
                     </div>
@@ -145,7 +145,7 @@
 
                     <div class="docs__label">Диплом/ Свидетельство</div>
                     <div class="docs__value">
-                      <div v-if="resume.main_documents.diploma" class="date">{{ resume.main_documents.diploma }}</div>
+                      <div v-if="resume.main_documents.diploma" class="date">{{ formatDate(resume.main_documents.diploma) }}</div>
                       <div v-else class="date">не указан</div>
                     </div>
 
@@ -255,7 +255,7 @@
                     <div class="docs__label">Изолирующие дыхательные приборы</div>
                     <div class="docs__value">
                       <div v-if="resume.additional_documents.isolation_breathing_apparatus" class="date">
-                        {{ resume.additional_documents.isolation_breathing_apparatus }}
+                        {{ formatDate(resume.additional_documents.isolation_breathing_apparatus) }}
                       </div>
                       <div v-else class="date">не указано</div>
                     </div>
@@ -271,7 +271,7 @@
                     <div class="docs__label">Транспортная безопасность</div>
                     <div class="docs__value">
                       <div v-if="resume.additional_documents.transportation_safety" class="date">
-                        {{ resume.additional_documents.transportation_safety }}
+                        {{ formatDate(resume.additional_documents.transportation_safety) }}
                       </div>
                       <div v-else class="date">не указано</div>
                     </div>
@@ -311,7 +311,7 @@
 
                     <div class="docs__label">ГМССБ</div>
                     <div class="docs__value">
-                      <div v-if="resume.shipwrights_papers.gmssb" class="date">{{ resume.shipwrights_papers.gmssb }}
+                      <div v-if="resume.shipwrights_papers.gmssb" class="date">{{ formatDate(resume.shipwrights_papers.gmssb) }}
                       </div>
                       <div v-else class="date">не указано</div>
                     </div>
@@ -325,7 +325,7 @@
 
                     <div class="docs__label">РЛТ</div>
                     <div class="docs__value">
-                      <div v-if="resume.shipwrights_papers.rlt" class="date">{{ resume.shipwrights_papers.rlt }}</div>
+                      <div v-if="resume.shipwrights_papers.rlt" class="date">{{ formatDate(resume.shipwrights_papers.rlt) }}</div>
                       <div v-else class="date">не указано</div>
                     </div>
 
@@ -392,16 +392,15 @@
 
               </div>
 
-
-              <div v-if="resume.media_files" class="vabout-part pdf-hide">
-                <h2 class="vabout-h2">Файлы моряка:</h2>
-
-                <div v-if="false" class="vabout-red">
-                  <img src="assets/img/vabout/red.svg" alt="image">
-                  <div>Некоторая информация станет доступна только после отправки и принятия
-                    предложения по вакансии.
-                  </div>
+              <div v-if="!showHiddenData" class="vabout-red">
+                <img src="assets/img/vabout/red.svg" alt="image">
+                <div>Некоторая информация станет доступна только после отправки и принятия
+                  предложения по вакансии.
                 </div>
+              </div>
+
+              <div v-if="showHiddenData && resume.media_files.length > 0" class="vabout-part pdf-hide">
+                <h2 class="vabout-h2">Файлы моряка:</h2>
 
                 <div class="vabout-info cabinet">
                   <div class="files">
@@ -424,10 +423,10 @@
               </div>
 
 
-              <div class="vabout-part pdf-hide">
+              <div v-if="showHiddenData" class="vabout-part pdf-hide">
                 <h2 class="vabout-h2">Резюме сайта:</h2>
 
-                <div class="vabout-red">
+                <div v-if="false" class="vabout-red">
                   <img src="assets/img/vabout/red.svg" alt="image">
                   <div>Некоторая информация станет доступна только после отправки и принятия
                     предложения по вакансии.
@@ -450,7 +449,7 @@
               </div>
 
 
-              <div class="vabout-part">
+              <div v-if="showHiddenData" class="vabout-part">
                 <h2 class="vabout-h2">Контантая информация:</h2>
 
                 <div v-if="false" class="vabout-red">
@@ -569,7 +568,7 @@ import convertLocation from "../../utils/convertLocation.js";
 const userStore = useUsersStore();
 const guests = useGuestsStore()
 
-const {userInfo, isAuth} = storeToRefs(userStore)
+const {userInfo, isAuth, userProfileId} = storeToRefs(userStore)
 
 import { useModalStore } from "@/store/modal";
 const { openBLModal, openOfferModal, openModal, closeModal, toggleModal, openModalCommon } = useModalStore();
@@ -578,6 +577,8 @@ const route = useRoute()
 
 const favoriteSend = ref(false)
 const blackSend = ref(false)
+
+const showHiddenData = ref(false)
 
 const company = ref(false)
 const resume = ref({
@@ -596,6 +597,7 @@ const resume = ref({
   additional_documents: {},
   working_experience: {},
   working_experience_new: {},
+  media_files: [],
   notification_settings: {
     send_email: false,
     send_sms: false,
@@ -608,11 +610,15 @@ const showMainDocs = ref(false)
 const showDopDocs = ref(false)
 const showShipDocs = ref(false)
 
+function formatDate(date) {
+  let tmp = date.split('-');
+  return tmp[2] + '.' + tmp[1] + '.' + tmp[0];
+}
 async function getResume() {
   const {data} = await api.get("/resumes/" + route.params.Id);
   resume.value = data;
   resume.value.positions = convertPositions(resume.value.positions)
-  console.log(data , "data")
+  //console.log(data , "data")
   let tmp = resume.value.worked;
   if (!tmp) {
     resume.value.worked = "не указано"
@@ -688,6 +694,23 @@ async function getResume() {
         'url': url,
         'label': label
       };
+    }
+  }
+
+  if (isAuth) {
+    if (userInfo.value.info.role == 'Компания') {
+      if (company.value.trusted_sailors && resume.value.trusted_companies) {
+        if (company.value.trusted_sailors.includes(route.params.Id)) {
+          if (resume.value.trusted_companies.includes(userProfileId.value.resumeID)) {
+            showHiddenData.value = true
+          }
+        }
+      }
+    }
+    if (userInfo.value.info.role == 'Моряк') {
+      if (route.params.Id == userProfileId.value.resumeID) {
+        showHiddenData.value = true
+      }
     }
   }
 }
