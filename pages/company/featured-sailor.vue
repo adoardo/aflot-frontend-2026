@@ -1,7 +1,8 @@
 <template>
   <ClientOnly>
-    <NuxtLayout name="custom" class="main cabinet">
+    <NuxtLayout name="default-hero" class="main cabinet">
       <div>
+        <AfHeaderColor/>
       </div>
 
       <section id="responses">
@@ -29,13 +30,13 @@
                     :data="item"
                   />
                 </template>
-                <template v-else>
-                  <div class="no-results">
-                    <span>Список избранного пуст</span>
-                    <img src="assets/img/ship-drawing.svg" alt="image" class="dock-img" />
-                  </div>
-                </template>
               </div>
+              <template v-if="!favoriteList.length">
+                <div class="no-results">
+                  <span>Список избранного пуст</span>
+                  <img src="assets/img/ship-drawing.svg" alt="image" class="dock-img" />
+                </div>
+              </template>
             </div>
 
             <div class="tab-body" v-if="tab2">
@@ -47,19 +48,20 @@
                     :data="item"
                   />
                 </template>
-                <template v-else>
-                  <div class="vacancy-list-empty">
-                    <div class="no-results">
-                      <span>Черный список пуст</span>
-                      <img src="assets/img/ship-drawing.svg" alt="image" class="dock-img" />
-                    </div>
-                  </div>
-                </template>
               </div>
+              <template v-if="!blackList.length">
+                <div class="vacancy-list-empty">
+                  <div class="no-results">
+                    <span>Черный список пуст</span>
+                    <img src="assets/img/ship-drawing.svg" alt="image" class="dock-img" />
+                  </div>
+                </div>
+              </template>
             </div>
           </div>
         </div>
       </section>
+      <AfCustomFooter :lnkStyle="'footer-block footer-block-transparent'" />
     </NuxtLayout>
   </ClientOnly>
 </template>

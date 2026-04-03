@@ -21,7 +21,7 @@
 
       <template v-if="vacs.length">
         <select class="modal-pred__select" v-model="selectedVac">
-          <option v-for="(vac, i) in vacs" :value="vac._id">{{vac.position}}</option>
+          <option v-for="(vac, i) in vacs" :value="vac._id">{{vac.position}}(с. {{vac.vessel_name}})</option>
         </select>
       </template>
       <template v-else>
@@ -59,6 +59,7 @@ import { storeToRefs } from "pinia";
 
 const fetchedData = ref({});
 const vacs = ref([]);
+const vessels = ref([]);
 const selectedVac = ref(false);
 const selectedVacName = ref(false);
 
@@ -92,10 +93,17 @@ const fetchVacs = async () => {
 
     fetchedData.value = data;
     vacs.value = data?.vacancies || [];
+    vessels.value = data?.vessels || [];
+
+
+    for (let i = 0; i < vacs.value.length; i++) {
+      vacs.value[i].vessel_name = 'test';
+      vacs.value[i].vessel_name = vessels.value[i].vessel_name;
+    }
 
     if (vacs.value[0]) {
       selectedVac.value = vacs.value[0]._id;
-      selectedVacName.value = vacs.value[0].position;
+      selectedVacName.value = vacs.value[0].position + ' <text class="ship-mini-name"> (с. ' + vessels.value[0].vessel_name + ')</text>';
     } else {
       selectedVac.value = null;
       selectedVacName.value = null;
@@ -257,5 +265,13 @@ const sendOffer = async () => {
   .modal-pred__novacs {
     font-size: 18px;
     font-weight: 600;
+  }
+  .ship-mini-name {
+    color: red;
+    font-weight: 800;
+  }
+  .modal-pred__select {
+    padding: 20px 10px;
+    font-size: 18px;
   }
 </style>

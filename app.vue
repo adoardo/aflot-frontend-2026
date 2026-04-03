@@ -49,16 +49,19 @@ import { useUsersStore } from "~/store/useUserStore";
 const userStore = useUsersStore();
 const { isAuth, user } = storeToRefs(userStore)
 
+//userStore.logout();
+//window.Telegram.WebApp.close();
+
 if (userStore.user.info.role === 'Компания') {
   userStore.getCompanyData()
 }
 // if (isAuth.value) {
 //   userStore.refreshToken(user.refresh_token)
 // }
-
-if(isAuth.value) {
-  const token = user.value.access_token
-  new WebSocketService(`wss://апи.афлот.рф/wss/${token}`)
+if (isAuth.value) {
+  userStore.refreshToken(user.value.refresh_token)
+  //const token = user.value.access_token
+  //new WebSocketService(`wss://апи.афлот.рф/wss/${token}`)
 }
 import {useGlobalSettings} from "~/store/useGlobalSettings";
 const globalSettings = useGlobalSettings();

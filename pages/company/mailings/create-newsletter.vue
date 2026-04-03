@@ -341,6 +341,7 @@ const filterData = ref({
   salary_to: 0,
   regions: [],
   ships: [],
+  vacancy_id: ""
 });
 
 const showFilterVacancy = ref(false);
@@ -373,7 +374,8 @@ const openMailingModal = (type, title1, title2) => {
 };
 
 const handleMailingModalClose = () => {
-  mailingModal.value.open = false;
+  //mailingModal.value.open = false;
+  window.location.href = "/company/mailings/vacancies"
 };
 
 const onDocumentClick = (e) => {
@@ -503,6 +505,7 @@ const resumeData = async () => {
       ...filterData.value,
       salary_from: toIntOrNull(filterData.value.salary_from),
       salary_to: toIntOrNull(filterData.value.salary_to),
+      vacancy_id: vacancyId.value
     };
 
     if (Array.isArray(payload.regions)) payload.regions = payload.regions.map(String).filter(Boolean);
@@ -570,6 +573,7 @@ const resetFilter = () => {
     salary_to: 0,
     regions: [],
     ships: [],
+    vacancy_id: vacancyId.value
   };
   resumeData();
 };

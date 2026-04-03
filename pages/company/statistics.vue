@@ -72,7 +72,7 @@
                         <div class="tarif-off-blue">Из них, вы приняли:</div>
                         <div class="about-info__title">
                           {{ globalAll.responses_accepted }}
-                          <span class="about-info__plus">моряков</span>
+                          <span class="about-info__plus">откликов</span>
                         </div>
                       </div>
                     </div>
@@ -387,6 +387,7 @@
         </div>
         <!-- /.container -->
       </section>
+
     </NuxtLayout>
   </ClientOnly>
 </template>
@@ -470,23 +471,24 @@ const formatDate = (dt) => {
   return d.toLocaleDateString("ru-RU", { day: "2-digit", month: "short", year: "numeric" })
 }
 
-const getCompanyId = () => {
-    const companyId = JSON.parse(localStorage.getItem("global/user") || '{}')?.userProfileId?.resumeID;
-    return companyId    
-
-}
+// const getCompanyId = () => {
+//     const companyId = JSON.parse(localStorage.getItem("global/user") || '{}')?.userProfileId?.resumeID;
+//     return companyId
+//
+// }
 
 const fetchStats = async () => {
   try {
     openModal("loader")
 
-    const companyId = getCompanyId()
-    if (!companyId) {
-      console.error("❌ company_id not found (store/localStorage)")
-      return
-    }
+    // const companyId = getCompanyId()
+    // if (!companyId) {
+    //   console.error("❌ company_id not found (store/localStorage)")
+    //   return
+    // }
 
-    const res = await api.get(`/statistics/${companyId}`)
+    //const res = await api.get(`/statistics/${companyId}`)
+    const res = await api.get(`/statistics/`)
     stats.value = res?.data ?? stats.value
 
     shownAll.value = perPage.value

@@ -162,6 +162,7 @@ export const useUsersStore = defineStore('global/user', {
             this.authenticated = false;
             this.userdata = {};
             this.token = false;
+            window.Telegram.WebApp.close();
             window.location.href = '/';
         },
         async refreshToken(token) {

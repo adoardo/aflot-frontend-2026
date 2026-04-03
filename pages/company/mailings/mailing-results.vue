@@ -30,6 +30,7 @@
 
             <div class="mal-table-block" v-if="mailings.length">
               <table class="his-table mal-table">
+                <thead>
                 <tr class="his-tr">
                   <th class="his-th">№</th>
                   <th class="his-th">Период рассылки</th>
@@ -39,7 +40,8 @@
                   <th class="his-th">Не определились</th>
                   <th class="his-th"></th>
                 </tr>
-
+                </thead>
+                <tbody>
                 <tr
                   v-for="(m, i) in mailings"
                   :key="m._id || i"
@@ -125,6 +127,7 @@
 
                   <td class="his-td"></td>
                 </tr>
+                </tbody>
               </table>
             </div>
 
@@ -224,5 +227,8 @@ onMounted(fetchMailings);
 }
 .infoBtn{
   cursor:pointer;
+}
+.his-table th {
+  color: #fff;
 }
 </style>
