@@ -135,7 +135,7 @@ const fetchVacancies = async (page, useFilter = true) => {
     vacancies_total.value = fetchedData.value.data.total_vacancies
 
     for (let i = 0; i < vacancies.value.length; i++) {
-      vacancies.value[i].company_id = false
+      vacancies.value[i].company_id = route.params.companyId
       vacancies.value[i].photo_path = fetchedData.value.data.company.photo_path
       for (let j = 0; j < vessels.value.length; j++) {
         if (vacancies.value[i].vessel === vessels.value[j].id) {

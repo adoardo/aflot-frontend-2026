@@ -10,7 +10,7 @@
             <div class="tab-header">
               <a
                   href="#resumes"
-                  class="tab-label"я
+                  class="tab-label" я
                   @click="activeTab = 'resumes'"
                   :class="{ active: activeTab === 'resumes' }"
               >
@@ -31,66 +31,10 @@
         <!-- ===================== TAB: RESUMES ===================== -->
         <div class="tab-body" v-if="activeTab == 'resumes'">
           <div class="container resume-cuntainer" @click="showTarifDropdown = false">
-            <h1>Статус</h1>
-            <div class="resume-status">
-              <!-- current -->
-              <div
-                  class="resume-status__current"
-                  :class="tarifClass"
-                  @click.stop="showTarifDropdown = !showTarifDropdown"
-              >
-                <span>{{ tarifNorm }}</span>
-                <span class="resume-status__arrow">▾</span>
-              </div>
 
-              <!-- dropdown -->
-              <div
-                  v-if="showTarifDropdown"
-                  class="resume-status__dropdown"
-                  @click.stop
-              >
-                <label class="custom-checkbox mor-checkbox">
-                  <input
-                      class="status-checkbox"
-                      type="radio"
-                      name="status_profile"
-                      value="Ищу работу"
-                      v-model="formData.tarif"
-                      @change="onTarifChange"
-                  />
-                  <span class="checkmark"></span>
-                  Ищу работу
-                </label>
-
-                <label class="custom-checkbox mor-checkbox">
-                  <input
-                      class="status-checkbox"
-                      type="radio"
-                      name="status_profile"
-                      value="Рассмотрю предложение"
-                      v-model="formData.tarif"
-                      @change="onTarifChange"
-                  />
-                  <span class="checkmark"></span>
-                  Рассмотрю предложение
-                </label>
-
-                <label class="custom-checkbox mor-checkbox">
-                  <input
-                      class="status-checkbox"
-                      type="radio"
-                      name="status_profile"
-                      value="Трудоустроен"
-                      v-model="formData.tarif"
-                      @change="onTarifChange"
-                  />
-                  <span class="checkmark"></span>
-                  Трудоустроен
-                </label>
-              </div>
-            </div>
 
             <div class="resume-main">
+
               <div class="resume-avatar">
                 <input
                     type="file"
@@ -132,6 +76,73 @@
               </div>
 
               <div class="resume-grid">
+                  <div class="resume-grid-top-item input">
+                    <label>Статус</label>
+                    <div class="resume-status">
+                      <!-- current -->
+                      <div
+                          class="resume-status__current"
+                          :class="tarifClass"
+                          @click.stop="showTarifDropdown = !showTarifDropdown"
+                      >
+                        <span>{{ tarifNorm }}</span>
+                        <span class="resume-status__arrow">▾</span>
+                      </div>
+
+                      <!-- dropdown -->
+                      <div
+                          v-if="showTarifDropdown"
+                          class="resume-status__dropdown"
+                          @click.stop
+                      >
+                        <label class="custom-checkbox mor-checkbox">
+                          <input
+                              class="status-checkbox"
+                              type="radio"
+                              name="status_profile"
+                              value="Ищу работу"
+                              v-model="formData.tarif"
+                              @change="onTarifChange"
+                          />
+                          <span class="checkmark"></span>
+                          Ищу работу
+                        </label>
+
+                        <label class="custom-checkbox mor-checkbox">
+                          <input
+                              class="status-checkbox"
+                              type="radio"
+                              name="status_profile"
+                              value="Рассмотрю предложение"
+                              v-model="formData.tarif"
+                              @change="onTarifChange"
+                          />
+                          <span class="checkmark"></span>
+                          Рассмотрю предложение
+                        </label>
+
+                        <label class="custom-checkbox mor-checkbox">
+                          <input
+                              class="status-checkbox"
+                              type="radio"
+                              name="status_profile"
+                              value="Трудоустроен"
+                              v-model="formData.tarif"
+                              @change="onTarifChange"
+                          />
+                          <span class="checkmark"></span>
+                          Трудоустроен
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="resume-grid-top-item input">
+                    <label>Желаемая зарплата, ₽</label>
+                    <input type="number" v-model="formData.salary">
+                  </div>
+                <div>
+
+                </div>
                 <AfInput
                     label="Фамилия"
                     type="text"
@@ -467,11 +478,13 @@
                   <div class="docs__label">Транспортная безопасность</div>
                   <div class="docs__value_datepicker"
                        :class="{' red-bg':  !transportation_safetyDateValidate && (formData.additional_documents.transportation_safety !== null),  'blue-bg': transportation_safetyDateValidate}">
-                    <VueDatePicker @update:modelValue="handleChangeTransportationSafety && (formData.additional_documents.transportation_safety !== null)" :class="'pass-date'"
-                                   v-model="formData.additional_documents.transportation_safety" hide-input-icon
-                                   auto-apply :time-config="{ enableTimePicker: false }"
-                                   :formats="{month: 'LLL', year: 'yyyy', day: 'dd', input: 'dd.MM.yyyy', preview: undefined}"
-                                   :locale="ru">
+                    <VueDatePicker
+                        @update:modelValue="handleChangeTransportationSafety && (formData.additional_documents.transportation_safety !== null)"
+                        :class="'pass-date'"
+                        v-model="formData.additional_documents.transportation_safety" hide-input-icon
+                        auto-apply :time-config="{ enableTimePicker: false }"
+                        :formats="{month: 'LLL', year: 'yyyy', day: 'dd', input: 'dd.MM.yyyy', preview: undefined}"
+                        :locale="ru">
 
                     </VueDatePicker>
                     <div
@@ -817,6 +830,7 @@ const formData = ref({
   last_name: "",
   patronymic: "",
   tarif: "Ищу работу",
+  salary: "",
   birth_date: "",
   phone_number: "",
   country: "",
@@ -1381,6 +1395,7 @@ const deleteUploadedFile = async (index) => {
 
 .container {
   position: relative;
+  padding-top: 30px;
 }
 
 .resume-action-left img {
@@ -1393,7 +1408,7 @@ const deleteUploadedFile = async (index) => {
 .resume-cuntainer .vabout-bwork-grey {
   display: inline-block;
   width: auto !important;
-  margin-top: 30px;
+  margin-top: 10px;
 }
 
 .resume-status {

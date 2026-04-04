@@ -210,11 +210,11 @@ const sendOffer = async () => {
     console.log(1)
     // 4️⃣ Mailing
     if (company_email) {
-      await sendSingleMailingToSailor(props.sailorId, company_email);
+      //await sendSingleMailingToSailor(props.sailorId, company_email);
     }
     console.log(2)
     // 5️⃣ Mailing history
-    await saveSingleMailingHistory(company_email, props.sailorId, selectedVac.value);
+    //await saveSingleMailingHistory(company_email, props.sailorId, selectedVac.value);
     console.log(3)
     // 6️⃣ WebSocket notify
     if (WebSocketService.instance) {

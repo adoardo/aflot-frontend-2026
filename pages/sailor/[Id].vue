@@ -701,7 +701,7 @@ async function getResume() {
     if (userInfo.value.info.role == 'Компания') {
       if (company.value.trusted_sailors && resume.value.trusted_companies) {
         if (company.value.trusted_sailors.includes(route.params.Id)) {
-          if (resume.value.trusted_companies.includes(userProfileId.value.resumeID)) {
+          if (resume.value.trusted_companies.includes(userProfileId.value.resumeID) || resume.value.trusted_companies.includes(userProfileId.value.id)) {
             showHiddenData.value = true
           }
         }

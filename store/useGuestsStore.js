@@ -1,25 +1,26 @@
-import { defineStore } from 'pinia';
+import {defineStore} from 'pinia';
 import api from '@/api/api'
-import { useUsersStore } from "~/store/useUserStore"
+import {useUsersStore} from "~/store/useUserStore"
 
 export const useGuestsStore = defineStore('guests', {
-  state: () => {
-    return {
-      guests: []
-    };
-  },
-  actions: {
-    async getNotifications() {
-      const userStore = useUsersStore()
-      const { user } = storeToRefs(userStore)
-console.log('USER INFO:', user.value.info.id)
-      const response = await api.get(`/notifications/${user.value.info.id}`)
-      console.log('Guests: ', response.data);
-      if(response.data.data) {
-        this.guests = response.data.data.guests
-      }
+    state: () => {
+        return {
+            guests: []
+        };
     },
-  }
+    actions: {
+        async getNotifications() {
+            const userStore = useUsersStore()
+            const {user} = storeToRefs(userStore)
+            //console.log('USER INFO:', user.value.info.id)
+            const response = await api.get(`/notifications/${user.value.info.id}`)
+            //console.log('Guests: ', response.data);
+            if (response.data.data) {
+                let tmp = response.data.data.guests
+                this.guests = tmp.reverse()
+            }
+        },
+    }
 });
 
 export const useGuestsStoreRefs = () => storeToRefs(useGuestsStore());

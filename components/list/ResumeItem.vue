@@ -41,7 +41,8 @@
       <div class="vacancy__info">
         <div class="vi-item">
           <div class="vi-label">Минимальная зарплата:</div>
-          <strong>{{ data?.salary }}</strong>
+          <strong v-if="data.salary">{{ data?.salary }} ₽</strong>
+          <strong v-else>не указана</strong>
         </div>
 
         <div class="vi-item">

@@ -34,6 +34,7 @@
                 <tr class="his-tr">
                   <th class="his-th">№</th>
                   <th class="his-th">Период рассылки</th>
+                  <th class="his-th">Вакансия</th>
                   <th class="his-th">Принято</th>
                   <th class="his-th">Отправлено</th>
                   <th class="his-th">Отклонило</th>
@@ -53,6 +54,10 @@
 
                   <td class="his-td">
                     <div class="mal-td-date">{{ formatDate(m.mailing_date) }}</div>
+                  </td>
+
+                  <td class="his-td">
+                    <div class="mal-td-date">{{ m.vacancy.position }} ({{ m.vacancy.vessel_name }})</div>
                   </td>
 
                   <td class="his-td">

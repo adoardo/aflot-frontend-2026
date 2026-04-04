@@ -143,12 +143,12 @@ onBeforeUnmount(() => {
 
 const deleteNotification = async (e, guest) => {
   e.preventDefault()
-  console.log(guest, 'deleteNotification')
-  console.log(userInfo.value.info.id)
+  //console.log(guest, 'deleteNotification')
+  //console.log(userInfo.value.info.id)
 
   let params = '?resume_id=' + guest.resume_id + '&sender_id=' + guest.sender_id + '&role=' + guest.role + '&type=' + guest.type + '&vacancy_id=' + guest.vacancy_id + '&vacancy_name=' + guest.vacancy_name;
-  console.log(params)
-  console.log("params")
+  //console.log(params)
+  //console.log("params")
 
   await api.delete('/notifications/' + userInfo.value.info.id + params, {
     params: {

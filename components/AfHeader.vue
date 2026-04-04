@@ -100,8 +100,12 @@ onMounted(() => {
   }
   if (WebSocketService.instance) {
     WebSocketService.instance.addListener('message', (event) => {
-      const data = JSON.parse(event)
-      guests.getNotifications();
+      //console.log('AAAAAAAAAAAAAAAAAAAAAAA')
+      //console.log(event);
+      //const data = JSON.parse(event)
+      if (isAuth.value) {
+        guests.getNotifications();
+      }
 
       console.log(data)
       //Swal.fire({

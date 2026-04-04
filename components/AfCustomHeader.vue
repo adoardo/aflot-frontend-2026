@@ -96,14 +96,18 @@ const userStore = useUsersStore();
 const {userInfo, isAuth, userProfileId} = storeToRefs(userStore)
 
 onMounted(() => {
-  guests.getNotifications();
+  if (isAuth.value) {
+    guests.getNotifications();
+  }
   if (WebSocketService.instance) {
     WebSocketService.instance.addListener('message', (event) => {
-      const data = JSON.parse(event)
+      //console.log(event);
+      //const data = JSON.parse(event)
 
-      guests.getNotifications();
+      if (isAuth.value) {
+        guests.getNotifications();
+      }
 
-      console.log(data)
       //Swal.fire({
       //  text: `${data.notification.message.name} посетил вас`,
       //  toast: true,
