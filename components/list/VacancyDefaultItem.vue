@@ -220,6 +220,7 @@ const sendResponse = async () => {
             receiver_role: "Компания",
             message: {
               sender_id: userInfo.value?.info?.id,
+              name: `${userInfo.value.info.first_name} ${userInfo.value.info.last_name}`,
               resume_id: resumeId,
               vacancy_id: vacancyId,
               vacancy_name: position,

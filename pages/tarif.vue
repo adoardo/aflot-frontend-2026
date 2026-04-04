@@ -1,5 +1,5 @@
 <template>
-  <NuxtLayout name="custom" v-if="false">
+  <NuxtLayout name="custom" v-if="true">
     <section class="section-about">
       <div class="container">
         <div class="about">

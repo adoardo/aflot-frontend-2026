@@ -4,7 +4,7 @@
       id="modal-response"
       :class="{ 'menu-show': isOpen }"
   >
-    <div class="modal-block">
+    <div v-if="userData.available_offers > 0" class="modal-block">
       <div class="modal-pred__top">
         <h2 class="modal-title">
           Предложить вакансию:
@@ -12,9 +12,9 @@
         <!-- /.modal-title -->
 
         <div class="modal-info__item modal-pred__item">
-          <div class="modal-pred__send">Вы еще можете отправить:</div>
+          <div class="modal-pred__send">Вы еще можете отправить предложений:</div>
           <!-- /.modal-info__gray -->
-          <div class="modal-pred__blue">598 предложений</div>
+          <div class="modal-pred__blue">{{ userData.available_offers }}</div>
           <!-- /.modal-info__black -->
         </div>
       </div>
@@ -43,6 +43,36 @@
 
     </div>
 
+    <div v-else class="modal-block">
+      <div class="modal-pred__top">
+        <h2 class="modal-title">
+          Закончились предложения:
+        </h2>
+        <!-- /.modal-title -->
+
+        <div class="modal-info__item modal-pred__item">
+          <div class="modal-pred__send">Вы еще можете отправить предложений:</div>
+          <!-- /.modal-info__gray -->
+          <div class="modal-pred__blue">{{ userData.available_offers }}</div>
+          <!-- /.modal-info__black -->
+        </div>
+      </div>
+
+      <div class="modal-pred__buttons">
+        <button v-if="vacs.length" @click="goTarifs()" class="modal-button-blue modal-button-red js-modal-close">
+          Пополнить
+        </button>
+        <!-- /.modal-button-blue -->
+
+        <button @click="closeModal('companyvac')" class="modal-button-blue js-modal-close">
+          Закрыть окно
+        </button>
+        <!-- /.modal-button-blue -->
+      </div>
+
+      <!-- /.modal-button-blue -->
+
+    </div>
   </div>
   <div
       :class="['header-overlay', { 'header-overlay__active': isOpen }]"
@@ -65,7 +95,7 @@ const selectedVacName = ref(false);
 
 const { openModal, closeModal } = useModalStore();
 const userStore = useUsersStore();
-const { userInfo } = storeToRefs(userStore);
+const { userInfo, userData } = storeToRefs(userStore);
 
 const props = defineProps({
   isOpen: Boolean,
@@ -113,6 +143,10 @@ const fetchVacs = async () => {
   }
 };
 
+
+const goTarifs = async () => {
+  window.location.href = '/tarif'
+}
 /* ================================
    HELPERS
 ================================ */

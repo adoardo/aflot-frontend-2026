@@ -671,8 +671,8 @@ async function getProfile() {
     is_verified.value = companyData.data.is_verified;
     is_tg.value = companyData.data.is_tg;
 
-    console.log(companyVerification.value.is_tg);
-    console.log(companyVerification.value.is_verified);
+    //console.log(companyVerification.value.is_tg);
+    //console.log(companyVerification.value.is_verified);
 
     profile.value = data;
     console.log(data);
@@ -879,7 +879,7 @@ const saveProfile = async () => {
       if (deletedFile.value) {
         await $deleteFile(deletedFile.value);
       }
-      //window.location.reload();
+      window.location.reload();
     });
   } catch (e) {
     console.log("company profile save error: ", e);

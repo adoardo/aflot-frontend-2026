@@ -61,7 +61,7 @@
                 <button
                     @click="changeAvatar()"
                     class="change-av-button header-menu__button"
-                    style="bottom: -18px !important"
+                    style="bottom: -88px !important"
                 >
                   Выбрать изображение
                 </button>
@@ -1284,7 +1284,8 @@ const deleteUploadedFile = async (index) => {
   align-items: center;
   flex-direction: column;
   position: relative;
-  height: 302px;
+  height: 202px;
+  width: 202px;
 }
 
 .resume-avatar > span {
