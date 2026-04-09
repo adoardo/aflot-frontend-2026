@@ -31,6 +31,7 @@ import ModalConfirmEmail from  "./components/global/ModalConfirmEmail.vue";
 import ContactUs from  "./components/global/ContactUs.vue";
 import ModalConfirmChangedPassword from "./components/global/ModalConfirmChangedPassword.vue";
 import ModalCreateVacancy from "./components/global/ModalCreateVacancy.vue";
+import ModalEditVacancy from "./components/global/ModalEditVacancy.vue";
 import ModalChangeInfo from "./components/global/ModalChangeInfo.vue";
 import ModalApproveTGDisconnect from "./components/global/ModalApproveTGDisconnect.vue";
 import ModalReconnect from "./components/global/ModalReconnect.vue";
@@ -140,6 +141,7 @@ nuxtApp.hook("page:finish", () => {
   <ContactUs v-if="modals.contactus" :is-open="modals.contactus"/>
   <ModalConfirmChangedPassword v-if="modals.confirmingpassword" :isOpen = "modals.confirmingpassword"/>
   <ModalCreateVacancy v-if="modals.vacancySuccess" :isOpen = "modals.vacancySuccess"/>
+  <ModalEditVacancy v-if="modals.vacancyEditSuccess" :isOpen = "modals.vacancyEditSuccess"/>
   <ModalChangeInfo v-if="modals.changeinfo" :isOpen = "modals.changeinfo"/>
   <ModalApproveTGDisconnect v-if="modals.approveTGDisconnect" :is-open="modals.approveTGDisconnect" />
   <ModalReconnect v-if="modals.telegramWarning" :isOpen="modals.telegramWarning" />

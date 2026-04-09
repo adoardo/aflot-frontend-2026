@@ -30,7 +30,7 @@
 
         <!-- ===================== TAB: RESUMES ===================== -->
         <div class="tab-body" v-if="activeTab == 'resumes'">
-          <div class="container resume-cuntainer" @click="showTarifDropdown = false">
+          <div class="container resume-cuntainer">
 
 
             <div class="resume-main">
@@ -80,10 +80,10 @@
                     <label>Статус</label>
                     <div class="resume-status">
                       <!-- current -->
-                      <div
+                      <div style="display:none;"
                           class="resume-status__current"
                           :class="tarifClass"
-                          @click.stop="showTarifDropdown = !showTarifDropdown"
+                          @click.stop="toggleTarifSwitch()"
                       >
                         <span>{{ tarifNorm }}</span>
                         <span class="resume-status__arrow">▾</span>
@@ -91,7 +91,7 @@
 
                       <!-- dropdown -->
                       <div
-                          v-if="showTarifDropdown"
+                          v-if="1"
                           class="resume-status__dropdown"
                           @click.stop
                       >
@@ -134,6 +134,7 @@
                           Трудоустроен
                         </label>
                       </div>
+
                     </div>
                   </div>
                   <div class="resume-grid-top-item input">
@@ -784,6 +785,9 @@ const deletedFiles = ref([]);
 const uploadedFiles = ref([]);
 const itemsWork = ref([]);
 
+const toggleTarifSwitch = async () => {
+  showTarifDropdown.value = !showTarifDropdown.value
+}
 // -------------------- TARIF FIX (normalize + map) --------------------
 const normalizeTarif = (v) => {
   const s = String(v || "").trim();
@@ -879,6 +883,7 @@ const tarifClass = computed(() => ({
 }));
 
 const onTarifChange = async () => {
+
   formData.value.tarif = normalizeTarif(formData.value.tarif);
   showTarifDropdown.value = false;
 
@@ -1291,6 +1296,7 @@ const deleteUploadedFile = async (index) => {
 .resume-avatar > span {
   height: 202px;
   width: 202px;
+  line-height: 202px;
 }
 
 .delete {
@@ -1432,12 +1438,10 @@ const deleteUploadedFile = async (index) => {
     margin-top: 6px;
     padding: 8px 12px;
     background: white;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     display: flex;
     flex-direction: column;
     gap: 20px;
     position: absolute;
-    border: 1px solid rgb(201, 201, 201);
     z-index: 50;
   }
 }
@@ -1496,5 +1500,8 @@ const deleteUploadedFile = async (index) => {
   font-size: 14px;
   z-index: 1;
   color: #3b45a9;
+}
+.resume-status {
+  height: 80px;
 }
 </style>

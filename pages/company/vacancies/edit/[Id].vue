@@ -36,13 +36,19 @@
                     />
                   </div>
                 </div>
-
-
+                <div class="tag-input">
+                  <AfDropDox
+                      title="Регион"
+                      :single="true"
+                      v-model="vacancyData.region"
+                      :options-list="regionList"/>
+                </div>
                 <div class="input inp-mt10">
                   <label style="margin-bottom: 12px;">Период посадки</label>
                   <UPopover :popper="{ placement: 'bottom-start' }">
                     <UButton icon="i-heroicons-calendar-days-20-solid">
-                      {{ format(selected.start, 'd MMM, yyy', {locale: ru}) }} - {{ format(selected.end, 'd MMM, yyy', {locale: ru}) }}
+                      {{ format(selected.start, 'd MMM, yyy', {locale: ru}) }} -
+                      {{ format(selected.end, 'd MMM, yyy', {locale: ru}) }}
                     </UButton>
 
                     <template #panel="{ close }">
@@ -61,7 +67,7 @@
                           />
                         </div>
 
-                        <DatePicker v-model="selected" @close="close" />
+                        <DatePicker v-model="selected" @close="close"/>
                       </div>
                     </template>
                   </UPopover>
@@ -70,7 +76,7 @@
                 </div>
                 <div class="input input-date-contract inp-mt10">
                   <AfSelect
-                      label="Период посадки:"
+                      label="Длительность контракта:"
                       v-model="vacancyData.contract_duration"
                       :options-list="getAfContractDuration"
                       :error="v$.contract_duration.$error && v$.contract_duration.required.$invalid"
@@ -314,16 +320,6 @@
                   </div>
                   <!-- /.vabout-info -->
 
-
-                  <div class="resume-contact__second">
-                    <AfCheckbox
-                        @click="shipToAddNew.append_company = !shipToAddNew.append_company"
-                        v-model="vacancyData.addNewShip"
-                        :descText="'По окончании публикации, добавить это судно в список '"
-                        :linkText="'«Мои суда»'"
-                    />
-                  </div>
-
                 </div>
                 <!-- /.sudno-info -->
 
@@ -467,19 +463,19 @@
           <div class="resume-grid col2 vak-edit-contact">
             <div class="input">
               <label for="">ФИО контактного лица</label>
-              <input type="text" v-model="companyProfile.f_i_o">
+              <input type="text" v-model="vacancyData.contact_person">
             </div>
             <div class="input">
               <label for="">E-mail</label>
-              <input type="text" v-model="companyProfile.email">
+              <input type="text" v-model="vacancyData.email">
             </div>
             <div class="input">
               <label for="">Телефон №1</label>
-              <input type="text" v-model="companyProfile.phone1">
+              <input type="text" v-model="vacancyData.phone1">
             </div>
             <div class="input">
               <label for="">Телефон №2</label>
-              <input type="text" v-model="companyProfile.phone2">
+              <input type="text" v-model="vacancyData.phone2">
             </div>
           </div>
         </div>
@@ -504,10 +500,15 @@ import {ref} from "vue";
 import api from "@/api/api";
 
 import DatePicker from "@/components/DatePicker";
-import { sub, format, isSameDay, type Duration } from 'date-fns'
+import {sub, format, isSameDay, type Duration} from 'date-fns'
 import ru from 'date-fns/locale/ru';
+import {useModalStore} from "~/store/modal";
 
+const {openModal, closeModal} = useModalStore();
 
+import {useRoute, useRouter} from 'vue-router';
+
+const route = useRoute();
 
 import AfInput from "@/components/uikit/AfInput";
 import AfDropDox from "@/components/uikit/AfDropDox";
@@ -517,9 +518,10 @@ import AfCheckbox from "@/components/uikit/AfCheckbox2";
 import {useGlobalSettings} from "~/store/useGlobalSettings";
 
 const globalSettings = useGlobalSettings();
-const {getAfJobs, getAfShips, getAfContractDuration} = storeToRefs(globalSettings)
+const {getAfJobs, getAfShips, getAfContractDuration, getAfRegionsRussiaVac} = storeToRefs(globalSettings)
 
 import {useUsersStore} from "~/store/useUserStore";
+
 const userStore = useUsersStore();
 const {userInfo, isAuth} = storeToRefs(userStore)
 
@@ -528,6 +530,7 @@ import {required, email, minLength} from "@vuelidate/validators";
 
 const professionalList = ref(getAfJobs);
 const shipList = ref(getAfShips);
+const regionList = ref(getAfRegionsRussiaVac);
 
 const activeTab = ref("tab1");
 
@@ -557,6 +560,7 @@ const companyProfile = ref({
 const newVesselValidationError = ref(false);
 const vesselId = ref(0);
 
+const fetchedData = ref({})
 const vacancyData = ref({
   position: '',
   salary_from: '',
@@ -566,10 +570,10 @@ const vacancyData = ref({
   date_of_departure_to: '',
   contract_duration: getAfContractDuration.value[0],
   vessel: vesselId.value,
-  contact_person: companyProfile.value.f_i_o,
-  email: companyProfile.value.email,
-  phone1: companyProfile.value.phone1,
-  phone2: companyProfile.value.phone2,
+  contact_person: '',
+  email: '',
+  phone1: '',
+  phone2: '',
   responses: [],
   job_offers: [],
   approved_responses: [],
@@ -578,22 +582,24 @@ const vacancyData = ref({
   is_active: true,
   addNewShip: true,
   created_at: Date.now(),
-  view_count: 0
+  view_count: 0,
+  region: ''
 });
 
 const ranges = [
-  { label: '7 дней', duration: { days: 7 } },
-  { label: '14 дней', duration: { days: 14 } },
-  { label: '30 дней', duration: { days: 30 } },
-  { label: '3 месяца', duration: { months: 3 } },
-  { label: '6 месяцев', duration: { months: 6 } },
-  { label: 'Год', duration: { years: 1 } }
+  {label: '7 дней', duration: {days: 7}},
+  {label: '14 дней', duration: {days: 14}},
+  {label: '30 дней', duration: {days: 30}},
+  {label: '3 месяца', duration: {months: 3}},
+  {label: '6 месяцев', duration: {months: 6}},
+  {label: 'Год', duration: {years: 1}}
 ]
-const selected = ref({ start: sub(new Date(), { years: 1 }), end: new Date() })
+const selected = ref({start: sub(new Date(), {years: 1}), end: new Date()})
+
 
 const setVacancyDates = async () => {
-  let dFrom = selected.value.start.getUTCFullYear() + '-' + ('0' + (selected.value.start.getUTCMonth()+1)).slice(-2) + '-' + ("0" + selected.value.start.getUTCDate()).slice(-2);
-  let dTo = selected.value.end.getUTCFullYear() + '-' + ('0' + (selected.value.end.getUTCMonth()+1)).slice(-2) + '-' + ("0" + selected.value.end.getUTCDate()).slice(-2);
+  let dFrom = selected.value.start.getUTCFullYear() + '-' + ('0' + (selected.value.start.getUTCMonth() + 1)).slice(-2) + '-' + ("0" + selected.value.start.getUTCDate()).slice(-2);
+  let dTo = selected.value.end.getUTCFullYear() + '-' + ('0' + (selected.value.end.getUTCMonth() + 1)).slice(-2) + '-' + ("0" + selected.value.end.getUTCDate()).slice(-2);
 
   vacancyData.value.date_of_departure = dFrom;
   vacancyData.value.date_of_departure_from = dFrom;
@@ -605,7 +611,7 @@ function isRangeSelected(duration: Duration) {
 }
 
 function selectRange(duration: Duration) {
-  selected.value = { start: sub(new Date(), duration), end: new Date() }
+  selected.value = {start: sub(new Date(), duration), end: new Date()}
 }
 
 const formData = ref({})
@@ -655,6 +661,7 @@ const unregisteredShipMF = ref([]);
 const unregisteredNamesMF = ref();
 const newShipChecker = ref(false);
 const init = async () => {
+
   try {
     await api.get("/company/profile").then((data) => {
       companyProfile.value = data.data;
@@ -689,6 +696,36 @@ const init = async () => {
     });
   } catch (e) {
     registered.value = []
+  }
+
+  try {
+    fetchedData.value = await api.get("/all-vacancies/get_vacancy/" + route.params.Id);
+
+    let tmp = fetchedData.value.data.vacancy.position
+    fetchedData.value.data.vacancy.position = []
+    fetchedData.value.data.vacancy.position[0] = tmp
+
+    tmp = fetchedData.value.data.vacancy.region
+    fetchedData.value.data.vacancy.region = []
+    fetchedData.value.data.vacancy.region[0] = tmp
+
+    selected.value.start = new Date(fetchedData.value.data.vacancy.date_of_departure_from);
+    selected.value.end = new Date(fetchedData.value.data.vacancy.date_of_departure_to);
+
+    // tmp = fetchedData.value.data.vacancy.f_i_o
+    // tmp = fetchedData.value.data.vacancy.email
+    // tmp = fetchedData.value.data.vacancy.phone1
+    // tmp = fetchedData.value.data.vacancy.phone2
+    //dataToSubmit.f_i_o = companyProfile.value.f_i_o
+    //dataToSubmit.email = companyProfile.value.email
+    //dataToSubmit.phone1 = companyProfile.value.phone1
+    //dataToSubmit.phone2 = companyProfile.value.phone2
+
+    findExistingShip(fetchedData.value.data.vacancy.vessel)
+
+    vacancyData.value = fetchedData.value.data.vacancy
+  } catch (error) {
+    console.log(error);
   }
 }
 if (isAuth.value) {
@@ -780,14 +817,44 @@ const validateEmail = (email) => {
       );
 };
 
+const findExistingShip = (vesselId) => {
+  for (let i = 0; i < registered.value.length; i++) {
+    if (registered.value[i]['_id'] == vesselId) {
+      shipToAdd.value = registered.value[i];
+      registeredShip.value = []
+      registeredShip.value[0] = registeredNames.value[i]
+      sendEnable.value = true;
+    }
+  }
+  if (!sendEnable.value) {
+    for (let i = 0; i < unregisteredMF.value.length; i++) {
+      if (unregisteredMF.value[i]['_id'] == vesselId) {
+        shipToAddMF.value = unregisteredMF.value[i];
+        unregisteredShipMF.value = []
+        unregisteredShipMF.value[0] = unregisteredNamesMF.value[i]
+        sendEnableMF.value = true;
+      }
+    }
+    if (sendEnableMF) {
+      activeTab.value = 'tab2'
+    }
+  } else {
+    activeTab.value = 'tab1'
+  }
+
+  return 1;
+}
+
 const sendFinally = async (publishState) => {
   await setVacancyDates();
+  //return;
   if (vesselId.value) {
 
     vacancyData.value.vessel = vesselId.value
     let dataToSubmit = prepareDataForSending(vacancyData)
 
     dataToSubmit.position = vacancyData.value.position[0];
+    dataToSubmit.region = vacancyData.value.region[0];
     dataToSubmit.responses = [];
     dataToSubmit.job_offers = [];
     dataToSubmit.append_company = vacancyData.value.addNewShip;
@@ -798,22 +865,28 @@ const sendFinally = async (publishState) => {
     if (!vacancyData.value.salary_to) {
       dataToSubmit.salary_to = 0;
     }
-    dataToSubmit.f_i_o = companyProfile.value.f_i_o
-    dataToSubmit.email = companyProfile.value.email
-    dataToSubmit.phone1 = companyProfile.value.phone1
-    dataToSubmit.phone2 = companyProfile.value.phone2
-    dataToSubmit.is_active = publishState;
+    //dataToSubmit.f_i_o = companyProfile.value.f_i_o
+    //dataToSubmit.email = companyProfile.value.email
+    //dataToSubmit.phone1 = companyProfile.value.phone1
+    //dataToSubmit.phone2 = companyProfile.value.phone2
+    dataToSubmit.is_active = true;
     dataToSubmit.is_publish = publishState;
 
     if (!validateEmail(dataToSubmit.email)) {
-      dataToSubmit.email = 'hide@hide.com'
+      dataToSubmit.email = ''
     }
 
+    openModal('loader')
+
     try {
-      await api.post("/all-vacancies/create", dataToSubmit).then((data) => {
+      await api.post("/all-vacancies/edit", dataToSubmit).then((data) => {
         console.log('vacancy new', data);
+        closeModal('loader')
+        openModal('vacancyEditSuccess')
+        //window.location.reload(true)
       });
     } catch (e) {
+      closeModal('loader')
       console.log(-1)
       console.log(e);
     }

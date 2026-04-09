@@ -811,11 +811,11 @@ const sendFinally = async (publishState) => {
     if (!vacancyData.value.salary_to) {
       dataToSubmit.salary_to = 0;
     }
-    dataToSubmit.f_i_o = companyProfile.value.f_i_o
+    dataToSubmit.contact_person = companyProfile.value.f_i_o
     dataToSubmit.email = companyProfile.value.email
     dataToSubmit.phone1 = companyProfile.value.phone1
     dataToSubmit.phone2 = companyProfile.value.phone2
-    dataToSubmit.is_active = publishState;
+    dataToSubmit.is_active = true;
     dataToSubmit.is_publish = publishState;
 
     if (!validateEmail(dataToSubmit.email)) {

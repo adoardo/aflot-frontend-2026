@@ -2,7 +2,7 @@
   <ClientOnly>
     <NuxtLayout name="default-hero" class="main cabinet">
       <div>
-        <AfHeaderColor />
+        <AfHeaderColor/>
       </div>
 
       <section id="responses">
@@ -10,25 +10,25 @@
           <div class="tabs">
             <div class="tab-header">
               <div
-                class="tab-label"
-                @click="setActiveTab(0)"
-                :class="{ active: activeTab === 0 }"
+                  class="tab-label"
+                  @click="setActiveTab(0)"
+                  :class="{ active: activeTab === 0 }"
               >
                 Вакансии
               </div>
 
               <div
-                class="tab-label"
-                @click="setActiveTab(1)"
-                :class="{ active: activeTab === 1 }"
+                  class="tab-label"
+                  @click="setActiveTab(1)"
+                  :class="{ active: activeTab === 1 }"
               >
                 Черновики
               </div>
 
               <div
-                class="tab-label"
-                @click="setActiveTab(2)"
-                :class="{ active: activeTab === 2 }"
+                  class="tab-label"
+                  @click="setActiveTab(2)"
+                  :class="{ active: activeTab === 2 }"
               >
                 Неактуальные вакансии
               </div>
@@ -46,7 +46,7 @@
                   <div class="suda-top__content">
                     <a href="/company/new" class="suda-top__title">Создать новую вакансию</a>
                     <div v-if="vacanciesActive.length" class="suda-top__text">
-                      Доступно: {{ company?.available_vacancies ?? "—" }}
+                      Доступно вакансий: {{ userData?.available_vacancies ?? "0" }}
                     </div>
                   </div>
                 </div>
@@ -54,14 +54,14 @@
 
               <div v-else class="vacancy-detail__list">
                 <div
-                  class="vacancy vacancy-detail"
-                  v-for="(item, i) in vacanciesActive"
-                  :key="item._id || item.id || i"
+                    class="vacancy vacancy-detail"
+                    v-for="(item, i) in vacanciesActive"
+                    :key="item._id || item.id || i"
                 >
                   <div class="vacancy__label">
                     {{ item.position }}
                     <div class="news-view" v-if="item.view_count">
-                      <img src="assets/img/news/icon.svg" alt="views" />
+                      <img src="assets/img/news/icon.svg" alt="views"/>
                       <span>{{ item.view_count }}</span>
                     </div>
                   </div>
@@ -110,20 +110,19 @@
 
                   <div class="vacancy__links">
                     <div>
-                      <span>Готовы к работе</span>
+                      <span>Готовы к работе <span class="count">{{ item.ready_to_work }}</span></span>
                       <span>Отклики <span class="count">{{ item.responses?.length || 0 }}</span></span>
-                      <span>Отправленные предложения</span>
+                      <span>Отправленные предложения <span class="count">{{ item.job_offers?.length || 0 }}</span></span>
                     </div>
 
                     <div>
                       <span @click="creating_mailing(item._id || item.id, item.position)">Создать рассылку</span>
-                      <span>Поднять в топ 10</span>
+                      <span @click="creating_mailing(item._id || item.id, item.position)">Поднять в топ 10</span>
                     </div>
 
                     <div>
-                      <span class="blue">Редактировать вакансию</span>
-                      <span class="blue">Переопубликовать вакансию</span>
-                      <span class="blue">Закрыть вакансию</span>
+                      <span @click="editVacancy(item._id || item.id)" class="blue">Редактировать вакансию</span>
+                      <span @click="closeVacancy(item._id || item.id)" class="blue">Закрыть вакансию</span>
                     </div>
                   </div>
 
@@ -137,7 +136,7 @@
                   <div class="suda-top__content">
                     <a href="/company/new" class="suda-top__title">Создать новую вакансию</a>
                     <div class="suda-top__text">
-                      Доступно: {{ company?.available_vacancies ?? "—" }}
+                      Доступно вакансий: {{ userData?.available_vacancies ?? "0" }}
                     </div>
                   </div>
                 </div>
@@ -153,9 +152,9 @@
 
               <div v-else class="vacancy-detail__list">
                 <div
-                  class="vacancy vacancy-detail"
-                  v-for="(item, i) in vacanciesDrafts"
-                  :key="item._id || item.id || i"
+                    class="vacancy vacancy-detail"
+                    v-for="(item, i) in vacanciesDrafts"
+                    :key="item._id || item.id || i"
                 >
                   <div class="vacancy__label">{{ item.position }}</div>
 
@@ -183,10 +182,10 @@
 
                   <div class="vacancy__links">
                     <div>
-                      <span>Редактировать вакансию</span>
-                      <span class="blue" @click="verifyVacancy(item._id || item.id)">Проверить вакансию</span>
+                      <span @click="editVacancy(item._id || item.id)">Редактировать вакансию</span>
+                      <span class="blue" @click="verifyVacancy(item._id || item.id)">Пепеопубликовать вакансию</span>
                     </div>
-                    <div><span class="blue">Удалить из черновиков</span></div>
+                    <div><span @click="closeVacancy(item._id || item.id)" class="blue">Удалить из черновиков</span></div>
                   </div>
 
                   <div class="vacancy__date">
@@ -205,9 +204,9 @@
 
               <div v-else class="vacancy-detail__list">
                 <div
-                  class="vacancy vacancy-detail"
-                  v-for="(item, i) in vacanciesInactive"
-                  :key="item._id || item.id || i"
+                    class="vacancy vacancy-detail"
+                    v-for="(item, i) in vacanciesInactive"
+                    :key="item._id || item.id || i"
                 >
                   <div class="vacancy__label">{{ item.position }}</div>
 
@@ -234,8 +233,9 @@
                   </div>
 
                   <div class="vacancy__links">
-                    <div><span class="blue" @click="verifyVacancy(item._id || item.id)">Переопубликовать вакансию</span></div>
-                    <div><span class="blue">Удалить</span></div>
+                    <div><span class="blue" @click="verifyVacancy(item._id || item.id)">Переопубликовать вакансию</span>
+                    </div>
+                    <div><span @click="deleteVacancy(item._id || item.id)" class="blue">Удалить</span></div>
                   </div>
 
                   <div class="vacancy__date">
@@ -248,17 +248,17 @@
         </div>
       </section>
 
-      <AfCustomFooter :lnkStyle="'footer-block footer-block-transparent'" />
+      <AfCustomFooter :lnkStyle="'footer-block footer-block-transparent'"/>
     </NuxtLayout>
   </ClientOnly>
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
-import { useRoute, useRouter } from "#imports";
+import {ref, onMounted, watch} from "vue";
+import {useRoute, useRouter} from "#imports";
 import api from "@/api/api";
-import { useUsersStore } from "~/store/useUserStore";
-import { storeToRefs } from "pinia";
+import {useUsersStore} from "~/store/useUserStore";
+import {storeToRefs} from "pinia";
 
 definePageMeta({
   middleware: ["company"],
@@ -268,7 +268,7 @@ const route = useRoute();
 const router = useRouter();
 
 const userStore = useUsersStore();
-const { userInfo } = storeToRefs(userStore);
+const {userData} = storeToRefs(userStore);
 
 // Tabs: 0=Актуальные, 1=Черновики, 2=Неактуальные
 const activeTab = ref(0);
@@ -285,17 +285,17 @@ const setActiveTab = async (tabIndex) => {
 
   // keep URL in sync: /company/vacansies?tab=0|1|2
   await router.replace({
-    query: { ...route.query, tab: String(t) },
+    query: {...route.query, tab: String(t)},
   });
 };
 
 // Sync from URL (works on reload + back/forward + sidebar links)
 watch(
-  () => route.query.tab,
-  (t) => {
-    activeTab.value = normalizeTab(t);
-  },
-  { immediate: true }
+    () => route.query.tab,
+    (t) => {
+      activeTab.value = normalizeTab(t);
+    },
+    {immediate: true}
 );
 
 // Data
@@ -318,15 +318,40 @@ function findVesselType(vesselId) {
   return vessel?.ship_type || "—";
 }
 
+const editVacancy = async (vacancyId) => {
+  window.location.href = "/company/vacancies/edit/" + vacancyId;
+}
+const closeVacancy = async (vacancyId) => {
+  try {
+    const {data} = await api.post(`/all-vacancies/to-inactive/${vacancyId}`);
+    console.log("Vacancy closed:", data);
+
+    fetchVacancies();
+  } catch (e) {
+    console.error("Error verifying vacancy:", e);
+  }
+}
+
+const deleteVacancy = async (vacancyId) => {
+  try {
+    const {data} = await api.post(`/all-vacancies/to-delete/${vacancyId}`);
+    console.log("Vacancy deleted:", data);
+
+    fetchVacancies();
+  } catch (e) {
+    console.error("Error verifying vacancy:", e);
+  }
+}
+
 const verifyVacancy = async (vacancyId) => {
   try {
-    const { data } = await api.get(`/company/verify-vacancy/${vacancyId}`);
+    const {data} = await api.get(`/company/verify-vacancy/${vacancyId}`);
     console.log("Vacancy verified:", data);
 
     // Update frontend instantly
     const vacancy =
-      vacanciesDrafts.value.find((v) => (v._id || v.id) === vacancyId) ||
-      vacanciesInactive.value.find((v) => (v._id || v.id) === vacancyId);
+        vacanciesDrafts.value.find((v) => (v._id || v.id) === vacancyId) ||
+        vacanciesInactive.value.find((v) => (v._id || v.id) === vacancyId);
 
     if (vacancy) {
       vacancy.is_publish = true;
@@ -354,7 +379,7 @@ async function fetchVacancies() {
       return;
     }
 
-    const { data } = await api.get(`/all-vacancies/get_company_vacancies/${companyId}`);
+    const {data} = await api.get(`/all-vacancies/get_company_vacancies/${companyId}`);
     console.log("✅ Полученные данные вакансий:", data);
 
     company.value = data.company;
@@ -362,8 +387,42 @@ async function fetchVacancies() {
     const all = data.vacancies || [];
 
     vacanciesActive.value = all.filter((v) => v.is_publish && v.is_active);
-    vacanciesDrafts.value = all.filter((v) => !v.is_publish);
+    vacanciesDrafts.value = all.filter((v) => !v.is_publish && v.is_active);
     vacanciesInactive.value = all.filter((v) => v.is_publish && !v.is_active);
+
+    for (let i = 0; i< vacanciesActive.value.length; i++) {
+      vacanciesActive.value[i].ready_to_work = 0
+      if (!vacanciesActive.value[i].approved_offers) {
+        vacanciesActive.value[i].approved_offers = []
+      }
+      if (!vacanciesActive.value[i].approved_responses) {
+        vacanciesActive.value[i].approved_responses = []
+      }
+      vacanciesActive.value[i].ready_to_work += vacanciesActive.value[i].approved_offers.length;
+      vacanciesActive.value[i].ready_to_work += vacanciesActive.value[i].approved_responses.length;
+    }
+    for (let i = 0; i< vacanciesDrafts.value.length; i++) {
+      vacanciesDrafts.value[i].ready_to_work = 0
+      if (!vacanciesDrafts.value[i].approved_offers) {
+        vacanciesDrafts.value[i].approved_offers = []
+      }
+      if (!vacanciesDrafts.value[i].approved_responses) {
+        vacanciesDrafts.value[i].approved_responses = []
+      }
+      vacanciesDrafts.value[i].ready_to_work += vacanciesDrafts.value[i].approved_offers.length;
+      vacanciesDrafts.value[i].ready_to_work += vacanciesDrafts.value[i].approved_responses.length;
+    }
+    for (let i = 0; i< vacanciesInactive.value.length; i++) {
+      vacanciesInactive.value[i].ready_to_work = 0
+      if (!vacanciesInactive.value[i].approved_offers) {
+        vacanciesInactive.value[i].approved_offers = []
+      }
+      if (!vacanciesInactive.value[i].approved_responses) {
+        vacanciesInactive.value[i].approved_responses = []
+      }
+      vacanciesInactive.value[i].ready_to_work += vacanciesInactive.value[i].approved_offers.length;
+      vacanciesInactive.value[i].ready_to_work += vacanciesInactive.value[i].approved_responses.length;
+    }
   } catch (err) {
     console.error("Ошибка при загрузке вакансий:", err);
     error.value = err?.message || "Ошибка";

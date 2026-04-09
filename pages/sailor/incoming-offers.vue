@@ -234,6 +234,11 @@ const sendResponse = async (mailing_id, vacancyId, company_id, position, respons
     // 1️⃣ Send response update to backend
     await api.post("/mailing/response", payload);
     //await api.post(`/vacancy-offer/${vacancyId}/add/${sailorResumeId}`);
+    //if (responseType == "accepted") {
+    //  await api.post(`/vacancy-offer/${vacancyId}/accept/${company_id}`);
+    //} else {
+    //  await api.post(`/vacancy-offer/${vacancyId}/cancel/${company_id}`);
+    //}
     await api.post(`/vacancy-offer/${vacancyId}/accept/${company_id}`);
 
     // 2️⃣ Delete previous notification

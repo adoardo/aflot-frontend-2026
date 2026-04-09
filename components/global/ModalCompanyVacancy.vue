@@ -21,7 +21,7 @@
 
       <template v-if="vacs.length">
         <select class="modal-pred__select" v-model="selectedVac">
-          <option v-for="(vac, i) in vacs" :value="vac._id">{{vac.position}}(с. {{vac.vessel_name}})</option>
+          <option v-for="(vac, i) in vacs" :value="vac._id">{{ vac.position }}(с. {{ vac.vessel_name }})</option>
         </select>
       </template>
       <template v-else>
@@ -80,12 +80,12 @@
   ></div>
 </template>
 <script setup>
-import { ref, watch } from "vue";
+import {ref, watch} from "vue";
 import api from "@/api/api";
-import { useModalStoreRefs, useModalStore } from "~/store/modal";
-import { useUsersStore } from "~/store/useUserStore";
+import {useModalStoreRefs, useModalStore} from "~/store/modal";
+import {useUsersStore} from "~/store/useUserStore";
 import watchScrollModal from "~/utils/watchScrollModal";
-import { storeToRefs } from "pinia";
+import {storeToRefs} from "pinia";
 
 const fetchedData = ref({});
 const vacs = ref([]);
@@ -93,9 +93,9 @@ const vessels = ref([]);
 const selectedVac = ref(false);
 const selectedVacName = ref(false);
 
-const { openModal, closeModal } = useModalStore();
+const {openModal, closeModal} = useModalStore();
 const userStore = useUsersStore();
-const { userInfo, userData } = storeToRefs(userStore);
+const {userInfo, userData} = storeToRefs(userStore);
 
 const props = defineProps({
   isOpen: Boolean,
@@ -105,10 +105,10 @@ const props = defineProps({
 watch(() => props.isOpen, watchScrollModal);
 
 watch(
-  () => props.sailorId,
-  () => {
-    fetchVacs();
-  }
+    () => props.sailorId,
+    () => {
+      fetchVacs();
+    }
 );
 
 /* ================================
@@ -119,7 +119,7 @@ const fetchVacs = async () => {
     //const companyId = JSON.parse(localStorage.getItem("global/user") || '{}')?.userProfileId?.id;
 
     //const { data } = await api.get("/all-vacancies-company-available/" + companyId);
-    const { data } = await api.get("/all-vacancies-company-available/" + props.sailorId);
+    const {data} = await api.get("/all-vacancies-company-available/" + props.sailorId);
 
     fetchedData.value = data;
     vacs.value = data?.vacancies || [];
@@ -153,7 +153,7 @@ const goTarifs = async () => {
 
 const sendSingleMailingToSailor = async (sailorId, company_email) => {
   try {
-    await api.post("/mailing-sailors", { ids: [sailorId], company_email });
+    await api.post("/mailing-sailors", {ids: [sailorId], company_email});
   } catch (err) {
     console.error("❌ Ошибка при создании рассылки (mailing-sailors):", err);
   }
@@ -173,7 +173,7 @@ const saveSingleMailingHistory = async (company_email, sailorId, vacancy_id) => 
 
 const fetchSailorEmail = async (sailorId) => {
   try {
-    const { data } = await api.get(`/sailorinfo/${sailorId}`);
+    const {data} = await api.get(`/sailorinfo/${sailorId}`);
     return data?.email || null;
   } catch (e) {
     console.warn("⚠️ Не удалось получить email моряка:", e);
@@ -191,19 +191,24 @@ const sendTelegramForOffer = async (email, vacancyId, vacancyName) => {
   }
 
   try {
-    const userData = JSON.parse(localStorage.getItem("global/user") || "{}");
+    const userData = JSON.parse(localStorage.getItem("global/user") || "{}").userdata;
 
     const company_name =
-      userData?.user?.info?.company_name ||
-      userData?.userProfileId?.name ||
-      "Компания";
-console.log('AAA TRY')
+        userData?.company_name ||
+        "";
+    const company_email =
+        userData?.email ||
+        "";
+    console.log(userData);
+    console.log(userData.company_name);
+    console.log('AAA TRY')
     await api.post("/telegram_message", {
       email,
       type: "offer",
       vacancy_id: vacancyId,
       vacancy_name: vacancyName,
-      company_name
+      company_name: company_name,
+      company_email: company_email
     });
     console.log('AAA END')
 
@@ -236,19 +241,19 @@ const sendOffer = async () => {
   await api.post('/vacancy-offer/' + selectedVac.value + '/add/' + props.sailorId);
 
   try {
-    const userData = JSON.parse(localStorage.getItem("global/user") || "{}");
+    const userData = JSON.parse(localStorage.getItem("global/user") || "{}").userdata;
     const company_email =
-      userData?.decemail ||
-      userData?.user?.info?.email ||
-      null;
+        userData?.decemail ||
+        userData?.user?.info?.email ||
+        null;
     console.log(1)
     // 4️⃣ Mailing
     if (company_email) {
-      //await sendSingleMailingToSailor(props.sailorId, company_email);
+      await sendSingleMailingToSailor(props.sailorId, company_email);
     }
     console.log(2)
     // 5️⃣ Mailing history
-    //await saveSingleMailingHistory(company_email, props.sailorId, selectedVac.value);
+    await saveSingleMailingHistory(company_email, props.sailorId, selectedVac.value);
     console.log(3)
     // 6️⃣ WebSocket notify
     if (WebSocketService.instance) {
@@ -275,9 +280,9 @@ const sendOffer = async () => {
     // 8️⃣ Telegram notify
     if (sailorEmail) {
       await sendTelegramForOffer(
-        sailorEmail,
-        selectedVac.value,
-        selectedVacName.value
+          sailorEmail,
+          selectedVac.value,
+          selectedVacName.value
       );
     }
     console.log(7)
@@ -294,18 +299,19 @@ const sendOffer = async () => {
 </script>
 
 
-
 <style scoped>
-  .modal-pred__novacs {
-    font-size: 18px;
-    font-weight: 600;
-  }
-  .ship-mini-name {
-    color: red;
-    font-weight: 800;
-  }
-  .modal-pred__select {
-    padding: 20px 10px;
-    font-size: 18px;
-  }
+.modal-pred__novacs {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.ship-mini-name {
+  color: red;
+  font-weight: 800;
+}
+
+.modal-pred__select {
+  padding: 20px 10px;
+  font-size: 18px;
+}
 </style>
